@@ -33,17 +33,8 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
     @Resource(name = "taskExecutor")
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
-    /**
-     * 验证码本地缓存
-     */
-    private static final Cache<String, String> LOCAL_CACHE = Caffeine.newBuilder()
-            // 设置初始容量为 10000 个条目
-            .initialCapacity(10000)
-            // 设置缓存的最大容量为 10000 条
-            .maximumSize(10000)
-            // 设置缓存条目在写入后 10 分钟过期
-            .expireAfterWrite(10, TimeUnit.MINUTES)
-            .build();
+    @Resource(name = "emailCaffeineCache")
+    private Cache<String, String> emailCaffeineCache;
 
     /**
      * 发送邮箱验证码
@@ -58,7 +49,7 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
         String email = sendEmailVerificationCodeReqVO.getEmail();
 
         // 判断该邮箱是否已申请过验证码
-        String localCode = LOCAL_CACHE.getIfPresent(email);
+        String localCode = emailCaffeineCache.getIfPresent(email);
         // 已申请过验证码提醒申请过于频繁
         if (StringUtils.isNotBlank(localCode)) {
             throw new BizException(ResponseCodeEnum.VERIFICATION_CODE_SEND_FREQUENTLY);
@@ -72,7 +63,7 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
                 emailHelper.sendVerifyCode(email, code, 10));
 
         // 2. 将验证码存入 Caffeine 中
-        LOCAL_CACHE.put(email, code);
+        emailCaffeineCache.put(email, code);
 
         return Response.success();
     }
