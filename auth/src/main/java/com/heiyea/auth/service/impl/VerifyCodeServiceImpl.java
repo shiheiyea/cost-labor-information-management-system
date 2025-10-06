@@ -42,7 +42,7 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
             // 设置缓存的最大容量为 10000 条
             .maximumSize(10000)
             // 设置缓存条目在写入后 10 分钟过期
-            .expireAfterWrite(10, TimeUnit.SECONDS)
+            .expireAfterWrite(10, TimeUnit.MINUTES)
             .build();
 
     /**
@@ -59,7 +59,7 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
 
         // 判断该邮箱是否已申请过验证码
         String localCode = LOCAL_CACHE.getIfPresent(email);
-        // 已申请过验证码码提醒申请过于频繁
+        // 已申请过验证码提醒申请过于频繁
         if (StringUtils.isNotBlank(localCode)) {
             throw new BizException(ResponseCodeEnum.VERIFICATION_CODE_SEND_FREQUENTLY);
         }
