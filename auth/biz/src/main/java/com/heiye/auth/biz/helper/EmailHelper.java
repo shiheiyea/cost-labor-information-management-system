@@ -1,7 +1,7 @@
-package com.heiyea.auth.helper;
+package com.heiye.auth.biz.helper;
 
 import com.example.costLaborInformationManagementSystem.common.exception.BizException;
-import com.heiyea.auth.enums.ResponseCodeEnum;
+import com.heiye.auth.biz.enums.ResponseCodeEnum;
 import jakarta.annotation.Resource;
 import jakarta.mail.internet.InternetAddress;
 import lombok.SneakyThrows;

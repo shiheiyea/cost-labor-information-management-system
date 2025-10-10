@@ -1,7 +1,7 @@
-package com.heiyea.auth.service;
+package com.heiye.auth.biz.service;
 
-import com.heiyea.auth.model.vo.SendEmailVerificationCodeReqVO;
 import com.example.costLaborInformationManagementSystem.common.response.Response;
+import com.heiye.auth.biz.model.vo.SendEmailVerificationCodeReqVO;
 
 /**
  * @author: heiye

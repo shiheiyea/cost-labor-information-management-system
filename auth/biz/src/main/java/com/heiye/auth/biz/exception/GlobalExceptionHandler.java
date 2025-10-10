@@ -1,8 +1,8 @@
-package com.heiyea.auth.exception;
+package com.heiye.auth.biz.exception;
 
 import com.example.costLaborInformationManagementSystem.common.exception.BizException;
 import com.example.costLaborInformationManagementSystem.common.response.Response;
-import com.heiyea.auth.enums.ResponseCodeEnum;
+import com.heiye.auth.biz.enums.ResponseCodeEnum;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;

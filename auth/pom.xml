@@ -10,46 +10,12 @@
     </parent>
 
     <description>认证服务</description>
+
+    <modules>
+        <!-- 业务模块 -->
+        <module>biz</module>
+    </modules>
     <artifactId>auth</artifactId>
 
-    <packaging>jar</packaging>
-
-   <dependencies>
-
-       <dependency>
-           <groupId>com.example.costLaborInformationManagementSystem</groupId>
-           <artifactId>common</artifactId>
-       </dependency>
-
-       <!-- Spring Boot Starter Web-->
-       <dependency>
-           <groupId>org.springframework.boot</groupId>
-           <artifactId>spring-boot-starter-web</artifactId>
-       </dependency>
-       <!-- Spring Boot Test -->
-       <dependency>
-           <groupId>org.springframework.boot</groupId>
-           <artifactId>spring-boot-starter-test</artifactId>
-           <scope>test</scope>
-       </dependency>
-
-       <!-- Sa-Token 权限认证 -->
-       <dependency>
-           <groupId>cn.dev33</groupId>
-           <artifactId>sa-token-spring-boot3-starter</artifactId>
-       </dependency>
-
-       <!-- Caffeine 本地缓存 -->
-       <dependency>
-           <groupId>com.github.ben-manes.caffeine</groupId>
-           <artifactId>caffeine</artifactId>
-       </dependency>
-
-       <!-- 发送邮件 -->
-       <dependency>
-           <groupId>org.springframework.boot</groupId>
-           <artifactId>spring-boot-starter-mail</artifactId>
-       </dependency>
-   </dependencies>
-
+    <packaging>pom</packaging>
 </project>

@@ -1,4 +1,4 @@
-package com.heiyea.auth.model.vo;
+package com.heiye.auth.biz.model.vo;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;

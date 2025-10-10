@@ -1,7 +1,7 @@
-package com.heiyea.auth.controller;
+package com.heiye.auth.biz.controller;
 
-import com.heiyea.auth.model.vo.RegisterReqVO;
 import com.example.costLaborInformationManagementSystem.common.response.Response;
+import com.heiye.auth.biz.model.vo.RegisterReqVO;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

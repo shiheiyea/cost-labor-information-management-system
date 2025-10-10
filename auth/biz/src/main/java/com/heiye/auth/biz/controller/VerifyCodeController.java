@@ -1,12 +1,11 @@
-package com.heiyea.auth.controller;
+package com.heiye.auth.biz.controller;
 
-import com.heiyea.auth.model.vo.SendEmailVerificationCodeReqVO;
+import com.heiye.auth.biz.model.vo.SendEmailVerificationCodeReqVO;
+import com.heiye.auth.biz.service.VerifyCodeService;
 import com.example.costLaborInformationManagementSystem.common.response.Response;
-import com.heiyea.auth.service.VerifyCodeService;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;

@@ -1,21 +1,18 @@
-package com.heiyea.auth.service.impl;
+package com.heiye.auth.biz.service.impl;
 
 import cn.hutool.core.util.RandomUtil;
 import com.example.costLaborInformationManagementSystem.common.exception.BizException;
 import com.github.benmanes.caffeine.cache.Cache;
-import com.github.benmanes.caffeine.cache.Caffeine;
-import com.heiyea.auth.enums.ResponseCodeEnum;
-import com.heiyea.auth.helper.EmailHelper;
-import com.heiyea.auth.model.vo.SendEmailVerificationCodeReqVO;
-import com.heiyea.auth.service.VerifyCodeService;
 import com.example.costLaborInformationManagementSystem.common.response.Response;
+import com.heiye.auth.biz.enums.ResponseCodeEnum;
+import com.heiye.auth.biz.helper.EmailHelper;
+import com.heiye.auth.biz.model.vo.SendEmailVerificationCodeReqVO;
+import com.heiye.auth.biz.service.VerifyCodeService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author: heiye
@@ -55,7 +52,7 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
             throw new BizException(ResponseCodeEnum.VERIFICATION_CODE_SEND_FREQUENTLY);
         }
 
-        // 生成验证码，仅数字
+        // 生成验证码，仅 6 位数字
         String code = RandomUtil.randomNumbers(6);
 
         // 发送验证码

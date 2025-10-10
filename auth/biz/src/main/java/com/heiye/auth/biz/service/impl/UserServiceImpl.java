@@ -1,8 +1,8 @@
-package com.heiyea.auth.service.impl;
+package com.heiye.auth.biz.service.impl;
 
-import com.heiyea.auth.model.vo.RegisterReqVO;
-import com.heiyea.auth.service.UserService;
 import com.example.costLaborInformationManagementSystem.common.response.Response;
+import com.heiye.auth.biz.model.vo.RegisterReqVO;
+import com.heiye.auth.biz.service.UserService;
 import org.springframework.stereotype.Service;
 
 /**

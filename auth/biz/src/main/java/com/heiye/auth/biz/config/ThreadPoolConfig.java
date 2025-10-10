@@ -1,4 +1,4 @@
-package com.heiyea.auth.config;
+package com.heiye.auth.biz.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

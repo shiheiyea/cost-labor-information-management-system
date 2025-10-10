@@ -4,4 +4,4 @@
  * @Description: TODO
  * @Version: 1.0
  */
-package com.heiyea.auth.model;
+package com.heiye.auth.biz.model;

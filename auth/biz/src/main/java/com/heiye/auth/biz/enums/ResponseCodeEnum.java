@@ -1,4 +1,4 @@
-package com.heiyea.auth.enums;
+package com.heiye.auth.biz.enums;
 
 import com.example.costLaborInformationManagementSystem.common.exception.BaseExceptionInterface;
 import lombok.AllArgsConstructor;
