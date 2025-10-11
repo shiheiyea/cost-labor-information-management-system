@@ -4,19 +4,19 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.example.costLaborInformationManagementSystem</groupId>
-    <artifactId>CostLaborInformationManagementSystem</artifactId>
+    <groupId>com.heiye.clims</groupId>
+    <artifactId>clims</artifactId>
     <version>${revision}</version>
     <packaging>pom</packaging>
 
     <modules>
         <!-- Server 主项目 -->
-        <module>service</module>
+        <module>clims-service</module>
         <!-- Dependencies 模块 -->
-        <module>dependencies</module>
-        <module>framework</module>
+        <module>clims-dependencies</module>
+        <module>clims-framework</module>
         <!-- 认证服务 -->
-        <module>auth</module>
+        <module>clims-auth</module>
     </modules>
 
     <properties>
@@ -38,16 +38,14 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.example.costLaborInformationManagementSystem</groupId>
-                <artifactId>CostLaborInformationManagementSystem-dependencies</artifactId>
+                <groupId>com.heiye.clims</groupId>
+                <artifactId>clims-dependencies</artifactId>
                 <version>${revision}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-
 
     <build>
         <pluginManagement>
