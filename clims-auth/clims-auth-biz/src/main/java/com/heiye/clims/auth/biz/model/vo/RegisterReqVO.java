@@ -42,5 +42,5 @@ public class RegisterReqVO {
      * 邮箱验证码
      */
     @NotEmpty(message = "邮箱验证码不能为空")
-    private Integer code;
+    private String code;
 }

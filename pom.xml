@@ -125,33 +125,6 @@
                 </executions>
             </plugin>
 
-            <!-- 统一 revision 版本 -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>flatten-maven-plugin</artifactId>
-                <version>${flatten-maven-plugin.version}</version>
-                <configuration>
-                    <flattenMode>bom</flattenMode>
-                    <updatePomFile>true</updatePomFile>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>flatten</goal>
-                        </goals>
-                        <id>flatten</id>
-                        <phase>process-resources</phase>
-                    </execution>
-                    <execution>
-                        <goals>
-                            <goal>clean</goal>
-                        </goals>
-                        <id>flatten.clean</id>
-                        <phase>clean</phase>
-                    </execution>
-                </executions>
-            </plugin>
-
             <!-- 代码生成器 -->
             <plugin>
                 <groupId>org.mybatis.generator</groupId>

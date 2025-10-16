@@ -16,15 +16,17 @@ import java.time.LocalDateTime;
 public class UserDO {
     private Long id;
 
+    private String nickname;
+
     private String password;
 
-    private String nickname;
+    private String userName;
 
     private String avatar;
 
     private String email;
 
-    private Boolean status;
+    private Integer status;
 
     private LocalDateTime createTime;
 

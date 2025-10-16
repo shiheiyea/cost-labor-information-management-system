@@ -19,7 +19,10 @@ public enum ResponseCodeEnum implements BaseExceptionInterface {
 
     // ----------- 业务异常状态码 -----------
     EMAIL_VERIFICATION_CODE_SEND_ERROR("AUTH-20000", "邮件发送错误"),
-    VERIFICATION_CODE_SEND_FREQUENTLY("AUTH-20001", "请求太频繁，请3分钟后再试")
+    VERIFICATION_CODE_SEND_FREQUENTLY("AUTH-20001", "请求太频繁，请3分钟后再试"),
+    VERIFICATION_CODE_CHECK_ERROR("AUTH-20002", "您输入的验证码有误"),
+    EMAIL_ALREADY_REGISTERED("AUTH-20003", "邮箱已被注册"),
+    USERNAME_ALREADY_REGISTERED("AUTH-20004", "用户名已被注册"),
     ;
 
     // 异常码
