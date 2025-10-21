@@ -19,7 +19,7 @@ public class CacheConfig {
      * 验证码本地缓存
      */
     @Bean(name = "emailCaffeineCache")
-    public Cache<String, Object> emailCaffeineCache() {
+    public Cache<String, String> emailCaffeineCache() {
         return Caffeine.newBuilder()
                 // 设置初始容量为 10000 个条目
                 .initialCapacity(10000)

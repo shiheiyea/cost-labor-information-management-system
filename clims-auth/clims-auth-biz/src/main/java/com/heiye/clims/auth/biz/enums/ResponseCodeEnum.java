@@ -23,6 +23,9 @@ public enum ResponseCodeEnum implements BaseExceptionInterface {
     VERIFICATION_CODE_CHECK_ERROR("AUTH-20002", "您输入的验证码有误"),
     EMAIL_ALREADY_REGISTERED("AUTH-20003", "邮箱已被注册"),
     USERNAME_ALREADY_REGISTERED("AUTH-20004", "用户名已被注册"),
+    EMAIL_CHECK_USER_NOT_EXIST("AUTH-20005", "该邮箱还未被注册"),
+    USER_NOT_EXIST("AUTH-20006", "用户不存在"),
+    USER_PASSWORD_ERROR("AUTH-20007", "密码输入错误"),
     ;
 
     // 异常码

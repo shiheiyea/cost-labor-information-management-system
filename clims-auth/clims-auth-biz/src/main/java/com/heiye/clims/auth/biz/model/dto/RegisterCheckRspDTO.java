@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterCheckRspVO {
+public class RegisterCheckRspDTO {
     /**
      * 邮箱是否存在
      */

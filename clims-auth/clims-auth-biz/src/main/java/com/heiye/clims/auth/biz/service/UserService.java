@@ -1,5 +1,6 @@
 package com.heiye.clims.auth.biz.service;
 
+import com.heiye.clims.auth.biz.model.vo.LoginReqVO;
 import com.heiye.clims.common.response.Response;
 import com.heiye.clims.auth.biz.model.vo.RegisterReqVO;
 
@@ -18,4 +19,12 @@ public interface UserService {
      * @return
      */
     Response<?> register(RegisterReqVO registerReqVO);
+
+    /**
+     * 登录
+     *
+     * @param loginReqVO
+     * @return
+     */
+    Response<?> login(LoginReqVO loginReqVO);
 }

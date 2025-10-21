@@ -1,5 +1,6 @@
 package com.heiye.clims.auth.biz.controller;
 
+import com.heiye.clims.auth.biz.model.vo.LoginReqVO;
 import com.heiye.clims.auth.biz.model.vo.RegisterReqVO;
 import com.heiye.clims.auth.biz.service.UserService;
 import com.heiye.clims.common.response.Response;
@@ -31,4 +32,17 @@ public class UserController {
     public Response<?> register(@RequestBody @Valid RegisterReqVO registerReqVO) {
         return userService.register(registerReqVO);
     }
+
+
+    /**
+     * 登录
+     *
+     * @param loginReqVO
+     * @return
+     */
+    @PostMapping("/login")
+    public Response<?> login(@RequestBody @Valid LoginReqVO loginReqVO) {
+        return userService.login(loginReqVO);
+    }
+
 }

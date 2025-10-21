@@ -2,8 +2,7 @@ package com.heiye.clims.auth.biz.domain.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.heiye.clims.auth.biz.domain.dos.UserDO;
-import com.heiye.clims.auth.biz.model.dto.RegisterCheckRspVO;
-import org.apache.ibatis.annotations.Mapper;
+import com.heiye.clims.auth.biz.model.dto.RegisterCheckRspDTO;
 
 public interface UserDOMapper extends BaseMapper<UserDO> {
     int deleteByPrimaryKey(Long id);
@@ -18,5 +17,5 @@ public interface UserDOMapper extends BaseMapper<UserDO> {
 
     int updateByPrimaryKey(UserDO record);
 
-    RegisterCheckRspVO checkRegisterConflicts(String username, String email);
+    RegisterCheckRspDTO checkRegisterConflicts(String username, String email);
 }

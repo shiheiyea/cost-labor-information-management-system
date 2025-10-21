@@ -4,7 +4,11 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.heiye.clims.auth.biz.domain.dos.UserDO;
 import com.heiye.clims.auth.biz.domain.mapper.UserDOMapper;
 import com.heiye.clims.auth.biz.enums.ResponseCodeEnum;
-import com.heiye.clims.auth.biz.model.dto.RegisterCheckRspVO;
+import com.heiye.clims.auth.biz.factory.LoginStrategyFactory;
+import com.heiye.clims.auth.biz.model.dto.RegisterCheckRspDTO;
+import com.heiye.clims.auth.biz.model.vo.LoginReqVO;
+import com.heiye.clims.auth.biz.model.vo.RegisterFinishRspVO;
+import com.heiye.clims.auth.biz.strategy.LoginStrategy;
 import com.heiye.clims.common.enums.DeleteEnum;
 import com.heiye.clims.common.enums.StatusEnum;
 import com.heiye.clims.common.exception.BizException;
@@ -13,7 +17,6 @@ import com.heiye.clims.auth.biz.model.vo.RegisterReqVO;
 import com.heiye.clims.auth.biz.service.UserService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -32,6 +35,9 @@ public class UserServiceImpl implements UserService {
 
     @Resource(name = "emailCaffeineCache")
     private Cache<String, String> emailCaffeineCache;
+
+    @Resource
+    private LoginStrategyFactory loginStrategyFactory;
 
     /**
      * 注册
@@ -59,15 +65,15 @@ public class UserServiceImpl implements UserService {
         }
 
         // 2. 判断邮箱是否已注册 和 账号名是否被注册
-        RegisterCheckRspVO registerCheckRspVO = userDOMapper.checkRegisterConflicts(username, email);
+        RegisterCheckRspDTO registerCheckRspDTO = userDOMapper.checkRegisterConflicts(username, email);
 
         // 邮箱已被注册抛出异常
-        if (registerCheckRspVO.getEmailExist()) {
+        if (registerCheckRspDTO.getEmailExist()) {
             throw new BizException(ResponseCodeEnum.EMAIL_ALREADY_REGISTERED);
         }
 
         // 账号名已被注册抛出异常
-        if (registerCheckRspVO.getUserNameExist()) {
+        if (registerCheckRspDTO.getUserNameExist()) {
             throw new BizException(ResponseCodeEnum.USERNAME_ALREADY_REGISTERED);
         }
 
@@ -90,5 +96,20 @@ public class UserServiceImpl implements UserService {
         emailCaffeineCache.invalidate(email);
 
         return Response.success();
+    }
+
+    /**
+     * 登录
+     *
+     * @param loginReqVO
+     * @return
+     */
+    @Override
+    public Response<?> login(LoginReqVO loginReqVO) {
+        // 获取登录策略
+        LoginStrategy loginStrategy = loginStrategyFactory.getStrategy(loginReqVO.getType());
+        // 登录
+        RegisterFinishRspVO registerFinishRspVO = loginStrategy.login(loginReqVO.getIdentifier(), loginReqVO.getCredential());
+        return ;
     }
 }

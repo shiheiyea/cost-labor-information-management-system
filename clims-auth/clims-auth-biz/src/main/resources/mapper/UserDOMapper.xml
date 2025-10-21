@@ -151,7 +151,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
 
-  <select id="checkRegisterConflicts" resultType="com.heiye.clims.auth.biz.model.dto.RegisterCheckRspVO">
+  <select id="checkRegisterConflicts" resultType="com.heiye.clims.auth.biz.model.dto.RegisterCheckRspDTO">
       select exists(select 1 from t_user where email = #{email} and is_deleted = 0)        as emailExist,
              exists(select 1 from t_user where user_name = #{username} and is_deleted = 0) as userNameExist
   </select>
