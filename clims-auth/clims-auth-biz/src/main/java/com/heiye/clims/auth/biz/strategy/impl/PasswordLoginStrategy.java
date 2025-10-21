@@ -46,7 +46,7 @@ public class PasswordLoginStrategy implements LoginStrategy {
 
     @Override
     public RegisterFinishRspVO login(String identifier, String credential) {
-        // 查询用户信息
+        // 1. 查询用户信息
         UserDO userDO = userDOMapper.selectOne(Wrappers.<UserDO>lambdaQuery()
                 .eq(UserDO::getEmail, identifier)
                 .eq(UserDO::getIsDeleted, DeleteEnum.NO.getCode()));
@@ -56,7 +56,7 @@ public class PasswordLoginStrategy implements LoginStrategy {
             throw new BizException(ResponseCodeEnum.USER_NOT_EXIST);
         }
 
-        // 3. 判断密码是否一致，不一致抛出异常
+        // 2. 判断密码是否一致，不一致抛出异常
         if (!Objects.equals(userDO.getPassword(), credential)) {
             throw new BizException(ResponseCodeEnum.USER_PASSWORD_ERROR);
         }
@@ -67,20 +67,20 @@ public class PasswordLoginStrategy implements LoginStrategy {
                 .token("")
                 .build();
 
-        // 4. 判断账号是否完成注册流程
+        // 3. 判断账号是否完成注册流程
         if (StringUtils.isBlank(userDO.getNickname()) || StringUtils.isBlank(userDO.getAvatar())) {
             // 用户未走完注册流程，需要重定向对应页面
             registerFinishRspVO.setFinish(false);
         }
 
-        // 5. sa-token 登录
+        // 4. sa-token 登录
         StpUtil.login(userDO.getId());
 
-        // 6. 获取token
+        // 5. 获取token
         String token = StpUtil.getTokenInfo().tokenValue;
         registerFinishRspVO.setToken(token);
 
-        // 5. 返参
+        // 6. 返参
         return registerFinishRspVO;
     }
 }
