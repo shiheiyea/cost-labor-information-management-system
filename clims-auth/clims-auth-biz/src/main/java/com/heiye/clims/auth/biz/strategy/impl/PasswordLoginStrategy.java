@@ -1,5 +1,6 @@
 package com.heiye.clims.auth.biz.strategy.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.heiye.clims.auth.biz.domain.dos.UserDO;
@@ -8,6 +9,7 @@ import com.heiye.clims.auth.biz.enums.LoginTypeEnum;
 import com.heiye.clims.auth.biz.enums.ResponseCodeEnum;
 import com.heiye.clims.auth.biz.model.vo.RegisterFinishRspVO;
 import com.heiye.clims.auth.biz.strategy.LoginStrategy;
+import com.heiye.clims.common.enums.DeleteEnum;
 import com.heiye.clims.common.exception.BizException;
 import com.heiye.clims.common.util.ParamUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -44,21 +46,10 @@ public class PasswordLoginStrategy implements LoginStrategy {
 
     @Override
     public RegisterFinishRspVO login(String identifier, String credential) {
-        // 1. 判断传入的凭证是邮箱还是用户名
-        boolean checkEmail = ParamUtils.checkEmail(identifier);
-
-        // 构建查询条件
-        LambdaQueryWrapper<UserDO> userDOLambdaQueryWrapper = Wrappers.<UserDO>lambdaQuery();
-
-        // 用户信息
-        UserDO userDO;
-
-        // 如果用户输入凭证是邮箱则拼接邮箱查询，否则查询用户名
-        if (checkEmail) {
-            userDO = userDOMapper.selectOne(userDOLambdaQueryWrapper.eq(UserDO::getEmail, identifier));
-        } else {
-            userDO = userDOMapper.selectOne(userDOLambdaQueryWrapper.eq(UserDO::getUserName, identifier));
-        }
+        // 查询用户信息
+        UserDO userDO = userDOMapper.selectOne(Wrappers.<UserDO>lambdaQuery()
+                .eq(UserDO::getEmail, identifier)
+                .eq(UserDO::getIsDeleted, DeleteEnum.NO.getCode()));
 
         // 用户不存在，抛出异常
         if (Objects.isNull(userDO)) {
@@ -81,6 +72,13 @@ public class PasswordLoginStrategy implements LoginStrategy {
             // 用户未走完注册流程，需要重定向对应页面
             registerFinishRspVO.setFinish(false);
         }
+
+        // 5. sa-token 登录
+        StpUtil.login(userDO.getId());
+
+        // 6. 获取token
+        String token = StpUtil.getTokenInfo().tokenValue;
+        registerFinishRspVO.setToken(token);
 
         // 5. 返参
         return registerFinishRspVO;

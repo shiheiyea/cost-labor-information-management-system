@@ -80,7 +80,6 @@ public class UserServiceImpl implements UserService {
         // 3. 创建用户
         UserDO userDO = UserDO.builder()
                 .avatar("")
-                .userName(username)
                 .nickname("")
                 .email(email)
                 .password(registerReqVO.getPassword())
@@ -110,6 +109,6 @@ public class UserServiceImpl implements UserService {
         LoginStrategy loginStrategy = loginStrategyFactory.getStrategy(loginReqVO.getType());
         // 登录
         RegisterFinishRspVO registerFinishRspVO = loginStrategy.login(loginReqVO.getIdentifier(), loginReqVO.getCredential());
-        return ;
+        return Response.success(registerFinishRspVO);
     }
 }

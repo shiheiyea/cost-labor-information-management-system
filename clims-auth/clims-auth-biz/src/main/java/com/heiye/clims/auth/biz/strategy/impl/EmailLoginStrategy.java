@@ -1,5 +1,6 @@
 package com.heiye.clims.auth.biz.strategy.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.heiye.clims.auth.biz.domain.dos.UserDO;
@@ -72,6 +73,13 @@ public class EmailLoginStrategy implements LoginStrategy {
             // 用户未走完注册流程，需要重定向对应页面
             registerFinishRspVO.setFinish(false);
         }
+
+        // 4. sa-token 登录
+        StpUtil.login(userDO.getId());
+
+        // 5. 获取token
+        String token = StpUtil.getTokenInfo().tokenValue;
+        registerFinishRspVO.setToken(token);
 
         // 4. 进行返参
         return registerFinishRspVO;

@@ -5,7 +5,6 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="nickname" jdbcType="VARCHAR" property="nickname" />
     <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="avatar" jdbcType="VARCHAR" property="avatar" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="status" jdbcType="TINYINT" property="status" />
@@ -14,7 +13,7 @@
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, nickname, `password`, user_name, avatar, email, `status`, create_time, update_time,
+    id, nickname, `password`, avatar, email, `status`, create_time, update_time,
     is_deleted
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -29,11 +28,11 @@
   </delete>
   <insert id="insert" parameterType="com.heiye.clims.auth.biz.domain.dos.UserDO">
       insert into t_user (id, nickname, `password`,
-                          user_name, avatar, email,
+                          avatar, email,
                           `status`, create_time, update_time,
                           is_deleted)
       values (#{id,jdbcType=BIGINT}, #{nickname,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
-              #{userName,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
+              #{avatar,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
               #{status,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
               #{isDeleted,jdbcType=BIT})
   </insert>
@@ -48,9 +47,6 @@
       </if>
       <if test="password != null">
         `password`,
-      </if>
-      <if test="userName != null">
-        user_name,
       </if>
       <if test="avatar != null">
         avatar,
@@ -113,9 +109,6 @@
       <if test="password != null">
         `password` = #{password,jdbcType=VARCHAR},
       </if>
-      <if test="userName != null">
-        user_name = #{userName,jdbcType=VARCHAR},
-      </if>
       <if test="avatar != null">
         avatar = #{avatar,jdbcType=VARCHAR},
       </if>
@@ -141,7 +134,6 @@
     update t_user
     set nickname = #{nickname,jdbcType=VARCHAR},
       `password` = #{password,jdbcType=VARCHAR},
-      user_name = #{userName,jdbcType=VARCHAR},
       avatar = #{avatar,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       `status` = #{status,jdbcType=TINYINT},
@@ -152,7 +144,6 @@
   </update>
 
   <select id="checkRegisterConflicts" resultType="com.heiye.clims.auth.biz.model.dto.RegisterCheckRspDTO">
-      select exists(select 1 from t_user where email = #{email} and is_deleted = 0)        as emailExist,
-             exists(select 1 from t_user where user_name = #{username} and is_deleted = 0) as userNameExist
+      select <include refid="Base_Column_List" /> from t_user where email = #{email} and is_deleted = 0
   </select>
 </mapper>

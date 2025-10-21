@@ -20,8 +20,6 @@ public class UserDO {
 
     private String password;
 
-    private String userName;
-
     private String avatar;
 
     private String email;
