@@ -22,6 +22,11 @@
             <artifactId>clims-auth-biz</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.heiye.clims</groupId>
+            <artifactId>clims-user-biz</artifactId>
+        </dependency>
+
         <!-- spring boot 配置所需依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

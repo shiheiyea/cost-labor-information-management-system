@@ -1,24 +1,22 @@
 package com.heiye.clims.auth.biz.service.impl;
 
 import com.github.benmanes.caffeine.cache.Cache;
-import com.heiye.clims.auth.biz.domain.dos.UserDO;
-import com.heiye.clims.auth.biz.domain.mapper.UserDOMapper;
 import com.heiye.clims.auth.biz.enums.ResponseCodeEnum;
 import com.heiye.clims.auth.biz.factory.LoginStrategyFactory;
-import com.heiye.clims.auth.biz.model.dto.RegisterCheckRspDTO;
 import com.heiye.clims.auth.biz.model.vo.LoginReqVO;
 import com.heiye.clims.auth.biz.model.vo.RegisterFinishRspVO;
 import com.heiye.clims.auth.biz.strategy.LoginStrategy;
-import com.heiye.clims.common.enums.DeleteEnum;
-import com.heiye.clims.common.enums.StatusEnum;
 import com.heiye.clims.common.exception.BizException;
 import com.heiye.clims.common.response.Response;
 import com.heiye.clims.auth.biz.model.vo.RegisterReqVO;
-import com.heiye.clims.auth.biz.service.UserService;
+import com.heiye.clims.auth.biz.service.AuthService;
+import com.heiye.clims.user.api.api.UserApi;
+import com.heiye.clims.user.api.dto.FindUserByEmailReqDTO;
+import com.heiye.clims.user.api.dto.FindUserByEmailRspDTO;
+import com.heiye.clims.user.api.dto.UserRegisterReqDTO;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -28,16 +26,16 @@ import java.util.Objects;
  * @description: 认证服务
  */
 @Service
-public class UserServiceImpl implements UserService {
-
-    @Resource
-    private UserDOMapper userDOMapper;
+public class AuthServiceImpl implements AuthService {
 
     @Resource(name = "emailCaffeineCache")
     private Cache<String, String> emailCaffeineCache;
 
     @Resource
     private LoginStrategyFactory loginStrategyFactory;
+
+    @Resource
+    private UserApi userApi;
 
     /**
      * 注册
@@ -47,12 +45,10 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Response<?> register(RegisterReqVO registerReqVO) {
-        // 1. 验证码校验
 
+        // 1. 验证码校验
         // 获取邮箱
         String email = registerReqVO.getEmail();
-        // 获取用户名
-        String username = registerReqVO.getUsername();
         // 获取验证码
         String code = registerReqVO.getCode();
 
@@ -64,32 +60,23 @@ public class UserServiceImpl implements UserService {
             throw new BizException(ResponseCodeEnum.VERIFICATION_CODE_CHECK_ERROR);
         }
 
-        // 2. 判断邮箱是否已注册 和 账号名是否被注册
-        RegisterCheckRspDTO registerCheckRspDTO = userDOMapper.checkRegisterConflicts(username, email);
+        // 2. 判断邮箱是否已注册 调用用户模块API
+        FindUserByEmailReqDTO findUserByEmailReqDTO = FindUserByEmailReqDTO.builder()
+                .email(email)
+                .build();
+        FindUserByEmailRspDTO findUserByEmailRspDTO = userApi.findUserByEmail(findUserByEmailReqDTO);
 
         // 邮箱已被注册抛出异常
-        if (registerCheckRspDTO.getEmailExist()) {
+        if (Objects.nonNull(findUserByEmailRspDTO)) {
             throw new BizException(ResponseCodeEnum.EMAIL_ALREADY_REGISTERED);
         }
 
-        // 账号名已被注册抛出异常
-        if (registerCheckRspDTO.getUserNameExist()) {
-            throw new BizException(ResponseCodeEnum.USERNAME_ALREADY_REGISTERED);
-        }
-
-        // 3. 创建用户
-        UserDO userDO = UserDO.builder()
-                .avatar("")
-                .nickname("")
+        // 3. 创建用户 调用用户模块API
+        UserRegisterReqDTO userRegisterReqDTO = UserRegisterReqDTO.builder()
                 .email(email)
                 .password(registerReqVO.getPassword())
-                .status(StatusEnum.ENABLE.getValue())
-                .isDeleted(DeleteEnum.NO.getCode())
-                .createTime(LocalDateTime.now())
-                .updateTime(LocalDateTime.now())
                 .build();
-
-        userDOMapper.insert(userDO);
+        userApi.register(userRegisterReqDTO);
 
         // 4. 删除缓存的验证码
         emailCaffeineCache.invalidate(email);

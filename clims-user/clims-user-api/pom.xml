@@ -5,26 +5,19 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.heiye.clims</groupId>
-        <artifactId>clims-framework</artifactId>
+        <artifactId>clims-user</artifactId>
         <version>${revision}</version>
     </parent>
 
-    <artifactId>clims-spring-boot-starter-jackson</artifactId>
-    <!-- 指定打包方式 -->
-    <packaging>jar</packaging>
 
-    <name>${project.artifactId}</name>
-    <description>自定义 Jackson 配置: 支持 Java 8 新的日期 API，如 LocalDateTime、LocalDate 等等</description>
+    <packaging>jar</packaging>
+    <artifactId>clims-user-api</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>com.heiye.clims</groupId>
             <artifactId>clims-common</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
-        </dependency>
     </dependencies>
+
 </project>

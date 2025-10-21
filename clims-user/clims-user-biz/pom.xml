@@ -5,11 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.heiye.clims</groupId>
-        <artifactId>clims-auth</artifactId>
+        <artifactId>clims-user</artifactId>
         <version>${revision}</version>
     </parent>
 
-    <artifactId>clims-auth-biz</artifactId>
+    <packaging>jar</packaging>
+
+    <artifactId>clims-user-biz</artifactId>
 
     <dependencies>
         <dependency>
@@ -32,24 +34,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-
-        <!-- Sa-Token 权限认证 -->
-        <dependency>
-            <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-spring-boot3-starter</artifactId>
-        </dependency>
-
-        <!-- Caffeine 本地缓存 -->
-        <dependency>
-            <groupId>com.github.ben-manes.caffeine</groupId>
-            <artifactId>caffeine</artifactId>
-        </dependency>
-
-        <!-- 发送邮件 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
 
         <!-- DB 相关 -->
@@ -76,11 +60,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <!-- 代码生成器 -->
-            <plugin>
-                <groupId>org.mybatis.generator</groupId>
-                <artifactId>mybatis-generator-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

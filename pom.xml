@@ -17,6 +17,7 @@
         <module>clims-framework</module>
         <!-- 认证服务 -->
         <module>clims-auth</module>
+        <module>clims-user</module>
     </modules>
 
     <properties>

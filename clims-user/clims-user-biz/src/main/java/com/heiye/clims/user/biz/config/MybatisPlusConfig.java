@@ -1,4 +1,4 @@
-package com.heiye.clims.auth.biz.config;
+package com.heiye.clims.user.biz.config;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +10,6 @@ import org.springframework.context.annotation.Configuration;
  * @description: MybatisPlus 配置类
  */
 @Configuration
-@MapperScan("com.heiye.clims.auth.biz.domain.mapper")
+@MapperScan("com.heiye.clims.user.biz.domain.mapper")
 public class MybatisPlusConfig {
 }

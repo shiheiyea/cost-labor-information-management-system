@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.heiye.clims.auth.biz.domain.mapper.UserDOMapper">
-  <resultMap id="BaseResultMap" type="com.heiye.clims.auth.biz.domain.dos.UserDO">
+<mapper namespace="com.heiye.clims.user.biz.domain.mapper.UserDOMapper">
+  <resultMap id="BaseResultMap" type="com.heiye.clims.user.biz.domain.dos.UserDO">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="nickname" jdbcType="VARCHAR" property="nickname" />
     <result column="password" jdbcType="VARCHAR" property="password" />
@@ -26,7 +26,7 @@
     delete from t_user
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.heiye.clims.auth.biz.domain.dos.UserDO">
+  <insert id="insert" parameterType="com.heiye.clims.user.biz.domain.dos.UserDO">
       insert into t_user (id, nickname, `password`,
                           avatar, email,
                           `status`, create_time, update_time,
@@ -36,7 +36,7 @@
               #{status,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
               #{isDeleted,jdbcType=BIT})
   </insert>
-  <insert id="insertSelective" parameterType="com.heiye.clims.auth.biz.domain.dos.UserDO">
+  <insert id="insertSelective" parameterType="com.heiye.clims.user.biz.domain.dos.UserDO">
     insert into t_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -100,7 +100,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.heiye.clims.auth.biz.domain.dos.UserDO">
+  <update id="updateByPrimaryKeySelective" parameterType="com.heiye.clims.user.biz.domain.dos.UserDO">
     update t_user
     <set>
       <if test="nickname != null">
@@ -130,7 +130,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.heiye.clims.auth.biz.domain.dos.UserDO">
+  <update id="updateByPrimaryKey" parameterType="com.heiye.clims.user.biz.domain.dos.UserDO">
     update t_user
     set nickname = #{nickname,jdbcType=VARCHAR},
       `password` = #{password,jdbcType=VARCHAR},
@@ -142,8 +142,4 @@
       is_deleted = #{isDeleted,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>
-
-  <select id="checkRegisterConflicts" resultType="com.heiye.clims.auth.biz.model.dto.RegisterCheckRspDTO">
-      select <include refid="Base_Column_List" /> from t_user where email = #{email} and is_deleted = 0
-  </select>
 </mapper>

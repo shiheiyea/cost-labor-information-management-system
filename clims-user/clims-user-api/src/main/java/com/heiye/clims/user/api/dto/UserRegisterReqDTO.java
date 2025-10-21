@@ -1,4 +1,4 @@
-package com.heiye.clims.auth.biz.model.vo;
+package com.heiye.clims.user.api.dto;
 
 import com.heiye.clims.common.util.ParamUtils;
 import jakarta.validation.constraints.NotEmpty;
@@ -11,15 +11,15 @@ import org.hibernate.validator.constraints.Length;
 
 /**
  * @author: heiye
- * @date: 2025/09/19 下午9:33
+ * @date: 2025/10/21 下午1:08
  * @version: v1.0.0
- * @description: 注册
+ * @description: 用户注册
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterReqVO {
+public class UserRegisterReqDTO {
     /**
      * 密码
      */
@@ -34,10 +34,4 @@ public class RegisterReqVO {
     @NotEmpty(message = "邮箱不能为空")
     @Pattern(regexp = ParamUtils.EMAIL_REGEX, message = "邮箱格式错误")
     private String email;
-
-    /**
-     * 邮箱验证码
-     */
-    @NotEmpty(message = "邮箱验证码不能为空")
-    private String code;
 }

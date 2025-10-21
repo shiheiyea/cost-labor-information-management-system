@@ -2,7 +2,7 @@ package com.heiye.clims.auth.biz.controller;
 
 import com.heiye.clims.auth.biz.model.vo.LoginReqVO;
 import com.heiye.clims.auth.biz.model.vo.RegisterReqVO;
-import com.heiye.clims.auth.biz.service.UserService;
+import com.heiye.clims.auth.biz.service.AuthService;
 import com.heiye.clims.common.response.Response;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     @Resource
-    private UserService userService;
+    private AuthService authService;
 
     /**
      * 注册
@@ -30,7 +30,7 @@ public class UserController {
      */
     @PostMapping("/register")
     public Response<?> register(@RequestBody @Valid RegisterReqVO registerReqVO) {
-        return userService.register(registerReqVO);
+        return authService.register(registerReqVO);
     }
 
 
@@ -42,7 +42,7 @@ public class UserController {
      */
     @PostMapping("/login")
     public Response<?> login(@RequestBody @Valid LoginReqVO loginReqVO) {
-        return userService.login(loginReqVO);
+        return authService.login(loginReqVO);
     }
 
 }

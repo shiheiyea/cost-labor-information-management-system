@@ -10,7 +10,7 @@ import com.heiye.clims.auth.biz.model.vo.RegisterReqVO;
  * @version: v1.0.0
  * @description: 认证服务
  */
-public interface UserService {
+public interface AuthService {
 
     /**
      * 注册

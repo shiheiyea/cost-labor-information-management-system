@@ -1,15 +1,15 @@
 package com.heiye.clims.auth.biz.strategy.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.benmanes.caffeine.cache.Cache;
-import com.heiye.clims.auth.biz.domain.dos.UserDO;
-import com.heiye.clims.auth.biz.domain.mapper.UserDOMapper;
 import com.heiye.clims.auth.biz.enums.LoginTypeEnum;
 import com.heiye.clims.auth.biz.enums.ResponseCodeEnum;
 import com.heiye.clims.auth.biz.model.vo.RegisterFinishRspVO;
 import com.heiye.clims.auth.biz.strategy.LoginStrategy;
 import com.heiye.clims.common.exception.BizException;
+import com.heiye.clims.user.api.api.UserApi;
+import com.heiye.clims.user.api.dto.FindUserByEmailReqDTO;
+import com.heiye.clims.user.api.dto.FindUserByEmailRspDTO;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -31,7 +31,7 @@ public class EmailLoginStrategy implements LoginStrategy {
     private Cache<String, String> emailCodeCache;
 
     @Resource
-    private UserDOMapper userDOMapper;
+    private UserApi userApi;
 
     /**
      * 获取登录类型枚举
@@ -53,12 +53,14 @@ public class EmailLoginStrategy implements LoginStrategy {
             throw new BizException(ResponseCodeEnum.VERIFICATION_CODE_CHECK_ERROR);
         }
 
-        // 2. 查询对应邮箱账号信息
-        UserDO userDO = userDOMapper.selectOne(Wrappers.<UserDO>lambdaQuery()
-                .eq(UserDO::getEmail, identifier));
+        // 2. 查询对应邮箱账号信息 调用用户模块API
+        FindUserByEmailReqDTO findUserByEmailReqDTO = FindUserByEmailReqDTO.builder()
+                .email(identifier)
+                .build();
+        FindUserByEmailRspDTO findUserByEmailRspDTO = userApi.findUserByEmail(findUserByEmailReqDTO);
 
         // 用户不存在表面邮箱未被注册，抛出异常
-        if (Objects.isNull(userDO)) {
+        if (Objects.isNull(findUserByEmailRspDTO)) {
             throw new BizException(ResponseCodeEnum.EMAIL_CHECK_USER_NOT_EXIST);
         }
 
@@ -69,13 +71,13 @@ public class EmailLoginStrategy implements LoginStrategy {
                 .build();
 
         // 3. 判断账号是否完成注册流程
-        if (StringUtils.isBlank(userDO.getNickname()) || StringUtils.isBlank(userDO.getAvatar())) {
+        if (StringUtils.isBlank(findUserByEmailRspDTO.getNickname()) || StringUtils.isBlank(findUserByEmailRspDTO.getAvatar())) {
             // 用户未走完注册流程，需要重定向对应页面
             registerFinishRspVO.setFinish(false);
         }
 
         // 4. sa-token 登录
-        StpUtil.login(userDO.getId());
+        StpUtil.login(findUserByEmailRspDTO.getId());
 
         // 5. 获取token
         String token = StpUtil.getTokenInfo().tokenValue;

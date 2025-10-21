@@ -1,19 +1,16 @@
 package com.heiye.clims.auth.biz.strategy.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.heiye.clims.auth.biz.domain.dos.UserDO;
-import com.heiye.clims.auth.biz.domain.mapper.UserDOMapper;
 import com.heiye.clims.auth.biz.enums.LoginTypeEnum;
 import com.heiye.clims.auth.biz.enums.ResponseCodeEnum;
 import com.heiye.clims.auth.biz.model.vo.RegisterFinishRspVO;
 import com.heiye.clims.auth.biz.strategy.LoginStrategy;
-import com.heiye.clims.common.enums.DeleteEnum;
 import com.heiye.clims.common.exception.BizException;
-import com.heiye.clims.common.util.ParamUtils;
+import com.heiye.clims.user.api.api.UserApi;
+import com.heiye.clims.user.api.dto.FindUserByEmailReqDTO;
+import com.heiye.clims.user.api.dto.FindUserByEmailRspDTO;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -28,11 +25,9 @@ import java.util.Objects;
 @Slf4j
 @Component
 public class PasswordLoginStrategy implements LoginStrategy {
-    private final UserDOMapper userDOMapper;
 
-    public PasswordLoginStrategy(UserDOMapper userDOMapper) {
-        this.userDOMapper = userDOMapper;
-    }
+    @Resource
+    private UserApi userApi;
 
     /**
      * 获取登录类型枚举
@@ -47,17 +42,18 @@ public class PasswordLoginStrategy implements LoginStrategy {
     @Override
     public RegisterFinishRspVO login(String identifier, String credential) {
         // 1. 查询用户信息
-        UserDO userDO = userDOMapper.selectOne(Wrappers.<UserDO>lambdaQuery()
-                .eq(UserDO::getEmail, identifier)
-                .eq(UserDO::getIsDeleted, DeleteEnum.NO.getCode()));
+        FindUserByEmailReqDTO findUserByEmailReqDTO = FindUserByEmailReqDTO.builder()
+                .email(identifier)
+                .build();
+        FindUserByEmailRspDTO findUserByEmailRspDTO = userApi.findUserByEmail(findUserByEmailReqDTO);
 
         // 用户不存在，抛出异常
-        if (Objects.isNull(userDO)) {
+        if (Objects.isNull(findUserByEmailRspDTO)) {
             throw new BizException(ResponseCodeEnum.USER_NOT_EXIST);
         }
 
         // 2. 判断密码是否一致，不一致抛出异常
-        if (!Objects.equals(userDO.getPassword(), credential)) {
+        if (!Objects.equals(findUserByEmailRspDTO.getPassword(), credential)) {
             throw new BizException(ResponseCodeEnum.USER_PASSWORD_ERROR);
         }
 
@@ -68,13 +64,13 @@ public class PasswordLoginStrategy implements LoginStrategy {
                 .build();
 
         // 3. 判断账号是否完成注册流程
-        if (StringUtils.isBlank(userDO.getNickname()) || StringUtils.isBlank(userDO.getAvatar())) {
+        if (StringUtils.isBlank(findUserByEmailRspDTO.getNickname()) || StringUtils.isBlank(findUserByEmailRspDTO.getAvatar())) {
             // 用户未走完注册流程，需要重定向对应页面
             registerFinishRspVO.setFinish(false);
         }
 
         // 4. sa-token 登录
-        StpUtil.login(userDO.getId());
+        StpUtil.login(findUserByEmailRspDTO.getId());
 
         // 5. 获取token
         String token = StpUtil.getTokenInfo().tokenValue;
