@@ -24,6 +24,11 @@
             <artifactId>clims-user-api</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.heiye.clims</groupId>
+            <artifactId>clims-spring-boot-starter-mybatis</artifactId>
+        </dependency>
+
         <!-- Spring Boot Starter Web-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

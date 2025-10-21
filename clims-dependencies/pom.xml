@@ -60,6 +60,12 @@
 
             <dependency>
                 <groupId>com.heiye.clims</groupId>
+                <artifactId>clims-spring-boot-starter-mybatis</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.heiye.clims</groupId>
                 <artifactId>clims-spring-boot-starter-jackson</artifactId>
                 <version>${revision}</version>
             </dependency>

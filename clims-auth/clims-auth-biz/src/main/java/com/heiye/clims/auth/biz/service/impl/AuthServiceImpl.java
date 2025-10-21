@@ -1,7 +1,7 @@
 package com.heiye.clims.auth.biz.service.impl;
 
 import com.github.benmanes.caffeine.cache.Cache;
-import com.heiye.clims.auth.biz.enums.ResponseCodeEnum;
+import com.heiye.clims.common.enums.ResponseCodeEnum;
 import com.heiye.clims.auth.biz.factory.LoginStrategyFactory;
 import com.heiye.clims.auth.biz.model.vo.LoginReqVO;
 import com.heiye.clims.auth.biz.model.vo.RegisterFinishRspVO;

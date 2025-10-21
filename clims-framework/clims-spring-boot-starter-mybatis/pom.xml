@@ -9,5 +9,13 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>clims-spring-boot-starter-web</artifactId>
+    <artifactId>clims-spring-boot-starter-mybatis</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 </project>

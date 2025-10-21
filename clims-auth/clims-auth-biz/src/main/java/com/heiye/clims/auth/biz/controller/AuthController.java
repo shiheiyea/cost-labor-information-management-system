@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Validated
 @RestController
-public class UserController {
+public class AuthController {
 
     @Resource
     private AuthService authService;

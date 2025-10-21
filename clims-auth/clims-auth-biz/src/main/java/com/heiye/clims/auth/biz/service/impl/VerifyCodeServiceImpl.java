@@ -4,7 +4,7 @@ import cn.hutool.core.util.RandomUtil;
 import com.heiye.clims.common.exception.BizException;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.heiye.clims.common.response.Response;
-import com.heiye.clims.auth.biz.enums.ResponseCodeEnum;
+import com.heiye.clims.common.enums.ResponseCodeEnum;
 import com.heiye.clims.auth.biz.helper.EmailHelper;
 import com.heiye.clims.auth.biz.model.vo.SendEmailVerificationCodeReqVO;
 import com.heiye.clims.auth.biz.service.VerifyCodeService;
