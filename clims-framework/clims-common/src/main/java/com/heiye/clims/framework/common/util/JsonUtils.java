@@ -1,4 +1,4 @@
-package com.heiye.clims.common.util;
+package com.heiye.clims.framework.common.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;

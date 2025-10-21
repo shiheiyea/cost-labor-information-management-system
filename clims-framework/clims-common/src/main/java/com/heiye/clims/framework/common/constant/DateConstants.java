@@ -1,4 +1,4 @@
-package com.heiye.clims.common.constant;
+package com.heiye.clims.framework.common.constant;
 
 import java.time.format.DateTimeFormatter;
 

@@ -1,6 +1,6 @@
 package com.heiye.clims.auth.biz.service;
 
-import com.heiye.clims.common.response.Response;
+import com.heiye.clims.framework.common.response.Response;
 import com.heiye.clims.auth.biz.model.vo.SendEmailVerificationCodeReqVO;
 
 /**

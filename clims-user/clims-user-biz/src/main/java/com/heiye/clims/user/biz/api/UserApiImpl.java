@@ -1,8 +1,8 @@
 package com.heiye.clims.user.biz.api;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.heiye.clims.common.enums.DeleteEnum;
-import com.heiye.clims.common.enums.StatusEnum;
+import com.heiye.clims.framework.common.enums.DeleteEnum;
+import com.heiye.clims.framework.common.enums.StatusEnum;
 import com.heiye.clims.user.api.api.UserApi;
 import com.heiye.clims.user.api.dto.FindUserByEmailReqDTO;
 import com.heiye.clims.user.api.dto.FindUserByEmailRspDTO;

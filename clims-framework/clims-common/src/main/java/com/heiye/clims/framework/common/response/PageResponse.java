@@ -1,4 +1,4 @@
-package com.heiye.clims.common.response;
+package com.heiye.clims.framework.common.response;
 
 import lombok.Data;
 

@@ -3,7 +3,7 @@ package com.heiye.clims.auth.biz.controller;
 import com.heiye.clims.auth.biz.model.vo.LoginReqVO;
 import com.heiye.clims.auth.biz.model.vo.RegisterReqVO;
 import com.heiye.clims.auth.biz.service.AuthService;
-import com.heiye.clims.common.response.Response;
+import com.heiye.clims.framework.common.response.Response;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;

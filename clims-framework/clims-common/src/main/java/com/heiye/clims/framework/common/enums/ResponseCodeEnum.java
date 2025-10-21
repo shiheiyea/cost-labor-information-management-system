@@ -1,6 +1,6 @@
-package com.heiye.clims.common.enums;
+package com.heiye.clims.framework.common.enums;
 
-import com.heiye.clims.common.exception.BaseExceptionInterface;
+import com.heiye.clims.framework.common.exception.BaseExceptionInterface;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

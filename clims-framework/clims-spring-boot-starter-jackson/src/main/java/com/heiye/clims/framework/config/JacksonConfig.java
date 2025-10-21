@@ -12,8 +12,8 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.YearMonthSerializer;
-import com.heiye.clims.common.constant.DateConstants;
-import com.heiye.clims.common.util.JsonUtils;
+import com.heiye.clims.framework.common.constant.DateConstants;
+import com.heiye.clims.framework.common.util.JsonUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

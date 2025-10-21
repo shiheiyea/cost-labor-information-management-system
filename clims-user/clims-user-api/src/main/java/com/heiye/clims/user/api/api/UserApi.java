@@ -1,6 +1,5 @@
 package com.heiye.clims.user.api.api;
 
-import com.heiye.clims.common.response.Response;
 import com.heiye.clims.user.api.dto.FindUserByEmailReqDTO;
 import com.heiye.clims.user.api.dto.FindUserByEmailRspDTO;
 import com.heiye.clims.user.api.dto.UserRegisterReqDTO;

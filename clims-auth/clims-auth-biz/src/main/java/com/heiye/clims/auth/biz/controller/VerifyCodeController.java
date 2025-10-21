@@ -2,7 +2,7 @@ package com.heiye.clims.auth.biz.controller;
 
 import com.heiye.clims.auth.biz.model.vo.SendEmailVerificationCodeReqVO;
 import com.heiye.clims.auth.biz.service.VerifyCodeService;
-import com.heiye.clims.common.response.Response;
+import com.heiye.clims.framework.common.response.Response;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;

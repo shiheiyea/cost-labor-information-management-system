@@ -1,13 +1,13 @@
 package com.heiye.clims.auth.biz.service.impl;
 
 import com.github.benmanes.caffeine.cache.Cache;
-import com.heiye.clims.common.enums.ResponseCodeEnum;
+import com.heiye.clims.framework.common.enums.ResponseCodeEnum;
 import com.heiye.clims.auth.biz.factory.LoginStrategyFactory;
 import com.heiye.clims.auth.biz.model.vo.LoginReqVO;
 import com.heiye.clims.auth.biz.model.vo.RegisterFinishRspVO;
 import com.heiye.clims.auth.biz.strategy.LoginStrategy;
-import com.heiye.clims.common.exception.BizException;
-import com.heiye.clims.common.response.Response;
+import com.heiye.clims.framework.common.exception.BizException;
+import com.heiye.clims.framework.common.response.Response;
 import com.heiye.clims.auth.biz.model.vo.RegisterReqVO;
 import com.heiye.clims.auth.biz.service.AuthService;
 import com.heiye.clims.user.api.api.UserApi;

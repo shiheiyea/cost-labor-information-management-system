@@ -1,8 +1,9 @@
 package com.heiye.clims.user.biz.service.impl;
 
-import com.heiye.clims.common.enums.ResponseCodeEnum;
-import com.heiye.clims.common.exception.BizException;
-import com.heiye.clims.common.response.Response;
+import com.heiye.clims.framework.common.enums.ResponseCodeEnum;
+import com.heiye.clims.framework.common.exception.BizException;
+import com.heiye.clims.framework.common.response.Response;
+import com.heiye.clims.framework.common.thread.LoginUserContextHolder;
 import com.heiye.clims.user.biz.domain.dos.UserDO;
 import com.heiye.clims.user.biz.domain.mapper.UserDOMapper;
 import com.heiye.clims.user.biz.model.UpdateUserInfoRepVO;
@@ -37,8 +38,8 @@ public class UserServiceImpl implements UserService {
         // 获取用户头像
         String avatar = updateUserInfoRepVO.getAvatar();
 
-        // TODO: 获取用户登录 ID
-        Long userId = 1L;
+        // 获取用户登录 ID
+        Long userId = LoginUserContextHolder.getUserId();
 
         // 创建用户 DO 对象
         UserDO userDO = UserDO.builder()

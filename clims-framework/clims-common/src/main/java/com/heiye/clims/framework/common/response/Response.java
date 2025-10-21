@@ -1,7 +1,7 @@
-package com.heiye.clims.common.response;
+package com.heiye.clims.framework.common.response;
 
-import com.heiye.clims.common.exception.BaseExceptionInterface;
-import com.heiye.clims.common.exception.BizException;
+import com.heiye.clims.framework.common.exception.BaseExceptionInterface;
+import com.heiye.clims.framework.common.exception.BizException;
 import lombok.Data;
 
 import java.io.Serializable;

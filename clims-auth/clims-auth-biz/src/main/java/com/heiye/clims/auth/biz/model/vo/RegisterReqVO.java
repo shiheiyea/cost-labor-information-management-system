@@ -1,6 +1,6 @@
 package com.heiye.clims.auth.biz.model.vo;
 
-import com.heiye.clims.common.util.ParamUtils;
+import com.heiye.clims.framework.common.util.ParamUtils;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;

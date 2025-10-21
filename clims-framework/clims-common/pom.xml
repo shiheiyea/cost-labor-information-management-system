@@ -71,5 +71,11 @@
             <!-- 只提供依赖，让使用common的模块自己控制版本，避免冲突 -->
             <scope>provided</scope>
         </dependency>
+
+        <!-- 阿里云线程 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>transmittable-thread-local</artifactId>
+        </dependency>
     </dependencies>
 </project>

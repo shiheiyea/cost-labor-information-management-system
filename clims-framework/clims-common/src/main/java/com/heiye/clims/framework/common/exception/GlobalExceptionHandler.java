@@ -1,8 +1,7 @@
-package com.heiye.clims.common.exception;
+package com.heiye.clims.framework.common.exception;
 
-import com.heiye.clims.common.enums.ResponseCodeEnum;
-import com.heiye.clims.common.exception.BizException;
-import com.heiye.clims.common.response.Response;
+import com.heiye.clims.framework.common.enums.ResponseCodeEnum;
+import com.heiye.clims.framework.common.response.Response;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;

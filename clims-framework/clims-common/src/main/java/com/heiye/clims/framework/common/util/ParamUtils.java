@@ -1,4 +1,4 @@
-package com.heiye.clims.common.util;
+package com.heiye.clims.framework.common.util;
 
 import java.util.regex.Pattern;
 

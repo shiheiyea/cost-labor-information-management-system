@@ -1,4 +1,4 @@
-package com.heiye.clims.common.exception;
+package com.heiye.clims.framework.common.exception;
 
 /**
  * @author: heiye
