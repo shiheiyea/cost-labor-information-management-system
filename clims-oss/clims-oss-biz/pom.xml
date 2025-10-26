@@ -5,38 +5,34 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.heiye.clims</groupId>
-        <artifactId>clims</artifactId>
+        <artifactId>clims-oss</artifactId>
         <version>${revision}</version>
     </parent>
 
-    <artifactId>clims-service</artifactId>
     <packaging>jar</packaging>
-
-    <description>
-        后端 Server 的主项目，本质上来说，它就是个空壳（容器）！
-    </description>
+    <artifactId>clims-oss-biz</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>com.heiye.clims</groupId>
-            <artifactId>clims-auth-biz</artifactId>
+            <artifactId>clims-common</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.heiye.clims</groupId>
-            <artifactId>clims-user-biz</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.heiye.clims</groupId>
-            <artifactId>clims-oss-biz</artifactId>
-        </dependency>
-
-        <!-- spring boot 配置所需依赖 -->
+        <!-- Spring Boot Starter Web-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- Spring Boot Test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.qiniu</groupId>
+            <artifactId>qiniu-java-sdk</artifactId>
         </dependency>
     </dependencies>
 </project>

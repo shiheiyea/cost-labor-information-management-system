@@ -18,6 +18,7 @@
         <!-- 认证服务 -->
         <module>clims-auth</module>
         <module>clims-user</module>
+        <module>clims-oss</module>
     </modules>
 
     <properties>

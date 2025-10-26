@@ -32,6 +32,7 @@
         <guava.version>33.0.0-jre</guava.version>
 
         <transmittable-thread-local.version>2.14.2</transmittable-thread-local.version>
+        <qiniu.version>7.9.0</qiniu.version>
     </properties>
 
     <dependencyManagement>
@@ -57,6 +58,12 @@
             <dependency>
                 <groupId>com.heiye.clims</groupId>
                 <artifactId>clims-user-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.heiye.clims</groupId>
+                <artifactId>clims-oss-biz</artifactId>
                 <version>${revision}</version>
             </dependency>
 
@@ -178,6 +185,12 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>transmittable-thread-local</artifactId>
                 <version>${transmittable-thread-local.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.qiniu</groupId>
+                <artifactId>qiniu-java-sdk</artifactId>
+                <version>${qiniu.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

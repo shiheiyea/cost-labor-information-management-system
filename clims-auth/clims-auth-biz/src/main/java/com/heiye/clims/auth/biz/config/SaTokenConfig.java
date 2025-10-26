@@ -30,16 +30,16 @@ public class SaTokenConfig {
                 .setAuth(obj -> {
                     log.info("==================> SaReactorFilter, Path: {}", SaHolder.getRequest().getRequestPath());
 
-                    // 登录认证 -- 拦截所有路由
-                    SaRouter.match("/**")
-                            // 排除 /login 用于开放登录
-                            .notMatch("/login")
-                            // 排除 /register 用于注册
-                            .notMatch("/register")
-                            // 排除 /verify/code/send/email 用于发送验证码
-                            .notMatch("/verify/code/send/email")
-                            // 认证函数: 每次请求执行
-                            .check(StpUtil::checkLogin);
+//                    // 登录认证 -- 拦截所有路由
+//                    SaRouter.match("/**")
+//                            // 排除 /login 用于开放登录
+//                            .notMatch("/login")
+//                            // 排除 /register 用于注册
+//                            .notMatch("/register")
+//                            // 排除 /verify/code/send/email 用于发送验证码
+//                            .notMatch("/verify/code/send/email")
+//                            // 认证函数: 每次请求执行
+//                            .check(StpUtil::checkLogin);
                 });
     }
 }
