@@ -1,7 +1,7 @@
 package com.heiye.clims.user.biz.controller;
 
 import com.heiye.clims.framework.common.response.Response;
-import com.heiye.clims.user.biz.model.UpdateUserInfoRepVO;
+import com.heiye.clims.user.biz.model.UpdateUserInfoReqVO;
 import com.heiye.clims.user.biz.service.UserService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -27,11 +27,11 @@ public class UserController {
 
     /**
      * 修改用户信息
-     * @param updateUserInfoRepVO
+     * @param updateUserInfoReqVO
      * @return
      */
     @PostMapping("/update")
-    Response<?> updateUserInfo(UpdateUserInfoRepVO updateUserInfoRepVO) {
-        return userService.updateUserInfo(updateUserInfoRepVO);
+    Response<?> updateUserInfo(UpdateUserInfoReqVO updateUserInfoReqVO) {
+        return userService.updateUserInfo(updateUserInfoReqVO);
     }
 }

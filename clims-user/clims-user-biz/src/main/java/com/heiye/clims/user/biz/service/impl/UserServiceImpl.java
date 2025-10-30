@@ -8,7 +8,9 @@ import com.heiye.clims.framework.common.thread.LoginUserContextHolder;
 import com.heiye.clims.framework.common.util.ParamUtils;
 import com.heiye.clims.user.biz.domain.dos.UserDO;
 import com.heiye.clims.user.biz.domain.mapper.UserDOMapper;
-import com.heiye.clims.user.biz.model.UpdateUserInfoRepVO;
+import com.heiye.clims.user.biz.model.FindUserProfileReqVO;
+import com.heiye.clims.user.biz.model.FindUserProfileRspVO;
+import com.heiye.clims.user.biz.model.UpdateUserInfoReqVO;
 import com.heiye.clims.user.biz.service.UserService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -34,17 +36,17 @@ public class UserServiceImpl implements UserService {
     /**
      * 修改用户信息
      *
-     * @param updateUserInfoRepVO
+     * @param updateUserInfoReqVO
      * @return
      */
     @Override
-    public Response<?> updateUserInfo(UpdateUserInfoRepVO updateUserInfoRepVO) {
+    public Response<?> updateUserInfo(UpdateUserInfoReqVO updateUserInfoReqVO) {
         // 获取用户 ID
-        Long userId = updateUserInfoRepVO.getUserId();
+        Long userId = updateUserInfoReqVO.getUserId();
         // 获取用户昵称
-        String nickname = updateUserInfoRepVO.getNickname();
+        String nickname = updateUserInfoReqVO.getNickname();
         // 获取用户头像
-        String avatar = updateUserInfoRepVO.getAvatar();
+        String avatar = updateUserInfoReqVO.getAvatar();
 
         // 获取用户登录 ID
         Long loginUserId = LoginUserContextHolder.getUserId();
@@ -83,5 +85,33 @@ public class UserServiceImpl implements UserService {
         }
 
         return Response.success();
+    }
+
+    /**
+     * 查询用户主页信息
+     *
+     * @param findUserProfileReqVO
+     * @return
+     */
+    @Override
+    public Response<?> findUserProfile(FindUserProfileReqVO findUserProfileReqVO) {
+        // 获取用户 ID
+        Long userId = findUserProfileReqVO.getUserId();
+
+        // 查询用户信息
+        UserDO userDO = userDOMapper.selectById(userId);
+
+        // 用户不存在
+        if (Objects.isNull(userDO)) {
+            throw new BizException(ResponseCodeEnum.USER_NOT_EXIST);
+        }
+
+        // 构建返回结果
+        FindUserProfileRspVO findUserProfileRspVO = FindUserProfileRspVO.builder()
+                .nickname(userDO.getNickname())
+                .avatar(userDO.getAvatar())
+                .build();
+
+        return Response.success(findUserProfileRspVO);
     }
 }

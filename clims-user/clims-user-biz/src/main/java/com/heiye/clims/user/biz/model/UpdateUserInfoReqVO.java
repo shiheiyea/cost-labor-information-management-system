@@ -14,7 +14,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateUserInfoRepVO {
+public class UpdateUserInfoReqVO {
     @NotNull(message = "用户 ID 不能为空")
     private Long userId;
 

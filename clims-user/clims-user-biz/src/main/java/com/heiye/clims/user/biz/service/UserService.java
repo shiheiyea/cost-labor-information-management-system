@@ -1,7 +1,8 @@
 package com.heiye.clims.user.biz.service;
 
 import com.heiye.clims.framework.common.response.Response;
-import com.heiye.clims.user.biz.model.UpdateUserInfoRepVO;
+import com.heiye.clims.user.biz.model.FindUserProfileReqVO;
+import com.heiye.clims.user.biz.model.UpdateUserInfoReqVO;
 
 /**
  * @author: heiye
@@ -13,8 +14,16 @@ public interface UserService {
     /**
      * 修改用户信息
      *
-     * @param updateUserInfoRepVO
+     * @param updateUserInfoReqVO
      * @return
      */
-    Response<?> updateUserInfo(UpdateUserInfoRepVO updateUserInfoRepVO);
+    Response<?> updateUserInfo(UpdateUserInfoReqVO updateUserInfoReqVO);
+
+    /**
+     * 查询用户主页信息
+     *
+     * @param findUserProfileReqVO
+     * @return
+     */
+    Response<?> findUserProfile(FindUserProfileReqVO findUserProfileReqVO);
 }
