@@ -19,6 +19,7 @@
         <module>clims-auth</module>
         <module>clims-user</module>
         <module>clims-oss</module>
+        <module>clims-work</module>
     </modules>
 
     <properties>

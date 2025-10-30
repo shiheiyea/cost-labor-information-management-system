@@ -5,7 +5,6 @@ import com.heiye.clims.oss.biz.factory.FileStrategyFactory;
 import com.heiye.clims.oss.biz.service.FileService;
 import com.heiye.clims.oss.biz.strategy.FileStrategy;
 import jakarta.annotation.Resource;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
