@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RestController
 @RequestMapping("/user")
-public class UserServiceController {
+public class UserController {
 
     @Resource
     private UserService userService;

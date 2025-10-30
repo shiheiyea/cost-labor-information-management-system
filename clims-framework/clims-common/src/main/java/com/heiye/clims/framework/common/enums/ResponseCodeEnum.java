@@ -29,6 +29,8 @@ public enum ResponseCodeEnum implements BaseExceptionInterface {
 
     // ----------- 用户服务异常状态码 -----------
     UPDATE_USER_INFO_ERROR("USER-20000", "修改用户信息失败"),
+    CANT_UPDATE_OTHER_USER_PROFILE("USER-20001", "您无权修改该用户信息"),
+    DISPLAY_NAME_VALID_FAIL("USER-20002", "昵称格式错误")
     ;
 
     // 异常码

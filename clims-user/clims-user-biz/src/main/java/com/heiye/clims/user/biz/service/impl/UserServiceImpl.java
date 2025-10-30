@@ -1,16 +1,22 @@
 package com.heiye.clims.user.biz.service.impl;
 
+import com.google.common.base.Preconditions;
 import com.heiye.clims.framework.common.enums.ResponseCodeEnum;
 import com.heiye.clims.framework.common.exception.BizException;
 import com.heiye.clims.framework.common.response.Response;
 import com.heiye.clims.framework.common.thread.LoginUserContextHolder;
+import com.heiye.clims.framework.common.util.ParamUtils;
 import com.heiye.clims.user.biz.domain.dos.UserDO;
 import com.heiye.clims.user.biz.domain.mapper.UserDOMapper;
 import com.heiye.clims.user.biz.model.UpdateUserInfoRepVO;
 import com.heiye.clims.user.biz.service.UserService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * @author: heiye
@@ -33,27 +39,47 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Response<?> updateUserInfo(UpdateUserInfoRepVO updateUserInfoRepVO) {
+        // 获取用户 ID
+        Long userId = updateUserInfoRepVO.getUserId();
         // 获取用户昵称
         String nickname = updateUserInfoRepVO.getNickname();
         // 获取用户头像
         String avatar = updateUserInfoRepVO.getAvatar();
 
         // 获取用户登录 ID
-        Long userId = LoginUserContextHolder.getUserId();
+        Long loginUserId = LoginUserContextHolder.getUserId();
+
+        // 非号主本人，无法修改其个人信息
+        if (Objects.equals(loginUserId, userId)) {
+            throw new BizException(ResponseCodeEnum.CANT_UPDATE_OTHER_USER_PROFILE);
+        }
 
         // 创建用户 DO 对象
-        UserDO userDO = UserDO.builder()
-                .id(userId)
-                .nickname(nickname)
-                .avatar(avatar)
-                .build();
+        UserDO userDO = new UserDO();
 
-        // 修改用户信息
-        int count = userDOMapper.updateById(userDO);
+        // 设置当前需要更新的用户ID
+        userDO.setId(userId);
+        // 标识位：是否需要更新
+        boolean needUpdate = false;
 
-        // 当 count <= 0 时，说明未修改到用户信息，抛出异常
-        if (count <= 0) {
-            throw new BizException(ResponseCodeEnum.UPDATE_USER_INFO_ERROR);
+        // 昵称校验
+        if (StringUtils.isNotBlank(nickname)) {
+            Preconditions.checkArgument(ParamUtils.checkNickname(nickname), ResponseCodeEnum.DISPLAY_NAME_VALID_FAIL.getErrorMessage());
+            userDO.setNickname(nickname);
+            needUpdate = true;
+        }
+
+        // 头像校验
+        if (StringUtils.isNotBlank(avatar)) {
+            userDO.setAvatar(avatar);
+            needUpdate = true;
+        }
+
+        if (needUpdate) {
+            // 设置更新时间
+            userDO.setUpdateTime(LocalDateTime.now());
+            // 修改用户信息
+            userDOMapper.updateById(userDO);
         }
 
         return Response.success();

@@ -1,10 +1,8 @@
 package com.heiye.clims.user.biz.model;
 
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 /**
  * @author: heiye
@@ -17,6 +15,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateUserInfoRepVO {
+    @NotNull(message = "用户 ID 不能为空")
+    private Long userId;
+
     @NotEmpty(message = "昵称不能为空")
     private String nickname;
 
