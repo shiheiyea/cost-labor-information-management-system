@@ -81,6 +81,12 @@
 
             <dependency>
                 <groupId>com.heiye.clims</groupId>
+                <artifactId>clims-spring-boot-starter-web</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.heiye.clims</groupId>
                 <artifactId>clims-work-biz</artifactId>
                 <version>${revision}</version>
             </dependency>

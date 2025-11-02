@@ -14,24 +14,17 @@
     <dependencies>
         <dependency>
             <groupId>com.heiye.clims</groupId>
-            <artifactId>clims-common</artifactId>
+            <artifactId>clims-user-api</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.heiye.clims</groupId>
-            <artifactId>clims-user-api</artifactId>
+            <artifactId>clims-spring-boot-starter-jackson</artifactId>
         </dependency>
 
-        <!-- Spring Boot Starter Web-->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <!-- Spring Boot Test -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <groupId>com.heiye.clims</groupId>
+            <artifactId>clims-spring-boot-starter-web</artifactId>
         </dependency>
 
         <!-- Sa-Token 权限认证 -->
