@@ -1,14 +1,11 @@
 package com.heiye.clims.user.biz.controller;
 
 import com.heiye.clims.framework.common.response.Response;
-import com.heiye.clims.user.biz.model.FindUserProfileReqVO;
 import com.heiye.clims.user.biz.model.UpdateUserInfoReqVO;
 import com.heiye.clims.user.biz.service.UserService;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

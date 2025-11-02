@@ -1,7 +1,6 @@
 package com.heiye.clims.user.biz.service;
 
 import com.heiye.clims.framework.common.response.Response;
-import com.heiye.clims.user.biz.model.FindUserProfileReqVO;
 import com.heiye.clims.user.biz.model.UpdateUserInfoReqVO;
 
 /**
