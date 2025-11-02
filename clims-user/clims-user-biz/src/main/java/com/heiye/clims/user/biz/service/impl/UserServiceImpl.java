@@ -1,13 +1,13 @@
 package com.heiye.clims.user.biz.service.impl;
 
 import com.google.common.base.Preconditions;
-import com.heiye.clims.framework.common.enums.ResponseCodeEnum;
 import com.heiye.clims.framework.common.exception.BizException;
 import com.heiye.clims.framework.common.response.Response;
 import com.heiye.clims.framework.common.thread.LoginUserContextHolder;
 import com.heiye.clims.framework.common.util.ParamUtils;
 import com.heiye.clims.user.biz.domain.dos.UserDO;
 import com.heiye.clims.user.biz.domain.mapper.UserDOMapper;
+import com.heiye.clims.user.biz.enums.ResponseCodeEnum;
 import com.heiye.clims.user.biz.model.FindUserProfileReqVO;
 import com.heiye.clims.user.biz.model.FindUserProfileRspVO;
 import com.heiye.clims.user.biz.model.UpdateUserInfoReqVO;

@@ -1,7 +1,7 @@
 package com.heiye.clims.auth.biz.helper;
 
+import com.heiye.clims.auth.biz.enums.ResponseCodeEnum;
 import com.heiye.clims.framework.common.exception.BizException;
-import com.heiye.clims.framework.common.enums.ResponseCodeEnum;
 import jakarta.annotation.Resource;
 import jakarta.mail.internet.InternetAddress;
 import lombok.SneakyThrows;

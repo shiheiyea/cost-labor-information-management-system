@@ -2,7 +2,7 @@ package com.heiye.clims.auth.biz.strategy.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.heiye.clims.auth.biz.enums.LoginTypeEnum;
-import com.heiye.clims.framework.common.enums.ResponseCodeEnum;
+import com.heiye.clims.auth.biz.enums.ResponseCodeEnum;
 import com.heiye.clims.auth.biz.model.vo.RegisterFinishRspVO;
 import com.heiye.clims.auth.biz.strategy.LoginStrategy;
 import com.heiye.clims.framework.common.exception.BizException;

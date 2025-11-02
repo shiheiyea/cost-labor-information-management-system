@@ -1,4 +1,4 @@
-package com.heiye.clims.framework.common.filter;
+package com.heiye.clims.framework.web.filter;
 
 import com.heiye.clims.framework.common.constant.GlobalConstants;
 import com.heiye.clims.framework.common.thread.LoginUserContextHolder;

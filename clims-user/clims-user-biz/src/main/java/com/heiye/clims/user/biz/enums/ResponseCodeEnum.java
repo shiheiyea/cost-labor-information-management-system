@@ -1,4 +1,4 @@
-package com.heiye.clims.framework.common.enums;
+package com.heiye.clims.user.biz.enums;
 
 import com.heiye.clims.framework.common.exception.BaseExceptionInterface;
 import lombok.AllArgsConstructor;
@@ -13,9 +13,11 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ResponseCodeEnum implements BaseExceptionInterface {
-    // ----------- 通用异常状态码 -----------
-    SYSTEM_ERROR("AUTH-10000", "出错啦，后台小哥正在努力修复中..."),
-    PARAM_NOT_VALID("AUTH-10001", "参数错误"),
+    // ----------- 用户服务异常状态码 -----------
+    UPDATE_USER_INFO_ERROR("USER-30000", "修改用户信息失败"),
+    CANT_UPDATE_OTHER_USER_PROFILE("USER-30001", "您无权修改该用户信息"),
+    DISPLAY_NAME_VALID_FAIL("USER-30002", "昵称格式错误"),
+    USER_NOT_EXIST("USER-30003", "用户不存在")
     ;
 
     // 异常码

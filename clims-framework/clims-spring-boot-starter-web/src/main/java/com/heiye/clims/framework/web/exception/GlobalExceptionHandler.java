@@ -1,6 +1,7 @@
-package com.heiye.clims.framework.common.exception;
+package com.heiye.clims.framework.web.exception;
 
 import com.heiye.clims.framework.common.enums.ResponseCodeEnum;
+import com.heiye.clims.framework.common.exception.BizException;
 import com.heiye.clims.framework.common.response.Response;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
