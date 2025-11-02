@@ -1,14 +1,16 @@
 package com.heiye.clims.user.biz.controller;
 
 import com.heiye.clims.framework.common.response.Response;
+import com.heiye.clims.user.biz.model.FindUserProfileReqVO;
 import com.heiye.clims.user.biz.model.UpdateUserInfoReqVO;
 import com.heiye.clims.user.biz.service.UserService;
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author: heiye
@@ -27,11 +29,23 @@ public class UserController {
 
     /**
      * 修改用户信息
+     *
      * @param updateUserInfoReqVO
      * @return
      */
     @PostMapping("/update")
-    Response<?> updateUserInfo(UpdateUserInfoReqVO updateUserInfoReqVO) {
+    Response<?> updateUserInfo(@RequestBody @Valid UpdateUserInfoReqVO updateUserInfoReqVO) {
         return userService.updateUserInfo(updateUserInfoReqVO);
+    }
+
+    /**
+     * 查询用户主页信息
+     *
+     * @param userId
+     * @return
+     */
+    @GetMapping("/profile")
+    Response<?> findUserProfile(@RequestParam Long userId) {
+        return userService.findUserProfile(userId);
     }
 }

@@ -48,11 +48,12 @@ public class UserServiceImpl implements UserService {
         // 获取用户头像
         String avatar = updateUserInfoReqVO.getAvatar();
 
-        // 获取用户登录 ID
-        Long loginUserId = LoginUserContextHolder.getUserId();
+        // TODO: 获取用户登录 ID
+//        Long loginUserId = LoginUserContextHolder.getUserId();
+        Long loginUserId = 1L;
 
         // 非号主本人，无法修改其个人信息
-        if (Objects.equals(loginUserId, userId)) {
+        if (!Objects.equals(loginUserId, userId)) {
             throw new BizException(ResponseCodeEnum.CANT_UPDATE_OTHER_USER_PROFILE);
         }
 
@@ -90,14 +91,11 @@ public class UserServiceImpl implements UserService {
     /**
      * 查询用户主页信息
      *
-     * @param findUserProfileReqVO
+     * @param userId
      * @return
      */
     @Override
-    public Response<?> findUserProfile(FindUserProfileReqVO findUserProfileReqVO) {
-        // 获取用户 ID
-        Long userId = findUserProfileReqVO.getUserId();
-
+    public Response<?> findUserProfile(Long userId) {
         // 查询用户信息
         UserDO userDO = userDOMapper.selectById(userId);
 

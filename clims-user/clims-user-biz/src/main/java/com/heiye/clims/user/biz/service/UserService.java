@@ -22,8 +22,8 @@ public interface UserService {
     /**
      * 查询用户主页信息
      *
-     * @param findUserProfileReqVO
+     * @param userId
      * @return
      */
-    Response<?> findUserProfile(FindUserProfileReqVO findUserProfileReqVO);
+    Response<?> findUserProfile(Long userId);
 }
