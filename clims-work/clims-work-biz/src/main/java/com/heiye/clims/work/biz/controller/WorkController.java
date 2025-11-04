@@ -44,4 +44,15 @@ public class WorkController {
     Response<?> findTodayWork() {
         return workService.findTodayWork();
     }
+
+    /**
+     * 开始工作
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/start")
+    Response<?> startWork(@RequestParam Long id) {
+        return workService.startWork(id);
+    }
 }

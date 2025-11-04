@@ -25,4 +25,11 @@ public interface WorkService {
      * @return
      */
     Response<?> findTodayWork();
+
+    /**
+     * 开始工作计时
+     *
+     * @return
+     */
+    Response<?> startWork(Long id);
 }

@@ -124,4 +124,28 @@ public class WorkServiceImpl implements WorkService {
 
         return Response.success(findTodayWorkRspVO);
     }
+
+    /**
+     * 开始工作计时
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public Response<?> startWork(Long id) {
+        // 查询该工作是否存在
+        WorkDO workDO = workDOMapper.selectById(id);
+
+        // 为空抛出异常
+        if (Objects.isNull(workDO)) {
+            throw new BizException(ResponseCodeEnum.WORK_NOT_EXIST);
+        }
+
+        // 更新工作开始时间和工作状态
+        workDO.setWorkStartTime(LocalDateTime.now());
+        workDO.setWorkStatus(WorkStatusEnum.WORKING.getCode());
+
+        workDOMapper.updateById(workDO);
+        return Response.success();
+    }
 }
