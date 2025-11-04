@@ -18,7 +18,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddWorkVO {
+public class AddWorkReqVO {
     @NotEmpty(message = "工作名称不能为空")
     private String workName;
 

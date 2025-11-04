@@ -1,11 +1,10 @@
 package com.heiye.clims.work.biz.controller;
 
 import com.heiye.clims.framework.common.response.Response;
-import com.heiye.clims.work.biz.model.vo.AddWorkVO;
+import com.heiye.clims.work.biz.model.vo.AddWorkReqVO;
 import com.heiye.clims.work.biz.service.WorkService;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,11 +30,11 @@ public class WorkController {
     /**
      * 添加工作
      *
-     * @param addWorkVO
+     * @param addWorkRepVO
      * @return
      */
     @PostMapping("/add")
-    Response<?> addWork(@RequestBody @Valid AddWorkVO addWorkVO) {
-        return workService.addWork(addWorkVO);
+    Response<?> addWork(@RequestBody @Valid AddWorkReqVO addWorkRepVO) {
+        return workService.addWork(addWorkRepVO);
     }
 }
