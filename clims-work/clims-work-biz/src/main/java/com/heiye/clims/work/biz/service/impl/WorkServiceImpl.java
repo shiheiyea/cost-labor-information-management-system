@@ -1,20 +1,23 @@
 package com.heiye.clims.work.biz.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import com.google.common.collect.Lists;
 import com.heiye.clims.framework.common.constant.DateConstants;
+import com.heiye.clims.framework.common.exception.BizException;
 import com.heiye.clims.framework.common.response.Response;
 import com.heiye.clims.work.biz.domain.dos.WorkDO;
 import com.heiye.clims.work.biz.domain.mapper.WorkDOMapper;
+import com.heiye.clims.work.biz.enums.ResponseCodeEnum;
 import com.heiye.clims.work.biz.enums.WorkStatusEnum;
 import com.heiye.clims.work.biz.model.vo.AddWorkReqVO;
 import com.heiye.clims.work.biz.model.vo.FindTodayWorkRspVO;
 import com.heiye.clims.work.biz.service.WorkService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
@@ -99,13 +102,23 @@ public class WorkServiceImpl implements WorkService {
         // 查询到今日工作就构建返回结果
         if (Objects.nonNull(workDO)) {
 
+            // 获取图片链接处理字符串
+            String imageUrlsStr = workDO.getImageUrls();
+
+            // 处理图片链接
+            List<String> imageUrls = null;
+            // 不为空则处理链接
+            if (StringUtils.isNotBlank(imageUrlsStr)) {
+                imageUrls = Lists.newArrayList(imageUrlsStr.split(","));
+            }
+
             findTodayWorkRspVO = FindTodayWorkRspVO.builder()
                     .id(workDO.getId())
                     .workName(workDO.getWorkName())
                     .workPlace(workDO.getWorkPlace())
                     .workContent(workDO.getWorkContent())
                     .workTime(workDO.getWorkTime())
-                    .imageUrls(workDO.getImageUrls())
+                    .imageUrls(imageUrls)
                     .build();
         }
 

@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author: heiye
@@ -22,7 +23,7 @@ import java.time.LocalDateTime;
 public class FindTodayWorkRspVO {
     private Long id;
 
-    private String imageUrls;
+    private List<String> imageUrls;
 
     private String workName;
 
