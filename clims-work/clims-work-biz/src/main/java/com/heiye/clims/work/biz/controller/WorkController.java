@@ -7,10 +7,7 @@ import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author: heiye
@@ -36,5 +33,15 @@ public class WorkController {
     @PostMapping("/add")
     Response<?> addWork(@RequestBody @Valid AddWorkReqVO addWorkRepVO) {
         return workService.addWork(addWorkRepVO);
+    }
+
+    /**
+     * 查询今日的工作
+     *
+     * @return
+     */
+    @GetMapping("/findTodayWork")
+    Response<?> findTodayWork() {
+        return workService.findTodayWork();
     }
 }

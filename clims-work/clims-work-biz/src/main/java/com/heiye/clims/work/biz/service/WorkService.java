@@ -1,8 +1,7 @@
 package com.heiye.clims.work.biz.service;
 
 import com.heiye.clims.framework.common.response.Response;
-import com.heiye.clims.work.biz.domain.dos.WorkDO;
-import com.heiye.clims.work.biz.model.vo.AddWorkVO;
+import com.heiye.clims.work.biz.model.vo.AddWorkReqVO;
 
 /**
  * @author: heiye
@@ -14,8 +13,16 @@ public interface WorkService {
     /**
      * 添加工作
      *
-     * @param addWorkVO
+     * @param addWorkRepVO
      * @return
      */
-    Response<?> addWork(AddWorkVO addWorkVO);
+    Response<?> addWork(AddWorkReqVO addWorkRepVO);
+
+
+    /**
+     * 查询今日的工作
+     *
+     * @return
+     */
+    Response<?> findTodayWork();
 }
