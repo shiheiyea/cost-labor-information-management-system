@@ -1,6 +1,8 @@
 package com.heiye.clims.work.biz.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.heiye.clims.framework.common.constant.DateConstants;
 import com.heiye.clims.framework.common.exception.BizException;
@@ -17,9 +19,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author: heiye
@@ -33,6 +37,9 @@ public class WorkServiceImpl implements WorkService {
 
     @Resource
     private WorkDOMapper workDOMapper;
+
+    @Resource(name = "workStopwatchCaffeineCache")
+    private Cache<Long, Stopwatch> workStopwatchCaffeineCache;
 
     /**
      * 添加工作
@@ -141,9 +148,15 @@ public class WorkServiceImpl implements WorkService {
             throw new BizException(ResponseCodeEnum.WORK_NOT_EXIST);
         }
 
+        // 创建工作计时器
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        // 缓存工作计时器
+        workStopwatchCaffeineCache.put(id, stopwatch);
+
         // 更新工作开始时间和工作状态
         workDO.setWorkStartTime(LocalDateTime.now());
         workDO.setWorkStatus(WorkStatusEnum.WORKING.getCode());
+        workDO.setUpdateTime(LocalDateTime.now());
 
         workDOMapper.updateById(workDO);
         return Response.success();
