@@ -2,6 +2,8 @@ package com.heiye.clims.work.biz.service;
 
 import com.heiye.clims.framework.common.response.Response;
 import com.heiye.clims.work.biz.model.vo.AddWorkReqVO;
+import com.heiye.clims.work.biz.model.vo.EndWorkReqVO;
+import com.heiye.clims.work.biz.model.vo.StartWorkReqVO;
 
 /**
  * @author: heiye
@@ -31,13 +33,13 @@ public interface WorkService {
      *
      * @return
      */
-    Response<?> startWork(Long id);
+    Response<?> startWork(StartWorkReqVO startWorkReqVO);
 
     /**
      * 结束工作计时
      *
-     * @param id
+     * @param endWorkReqVO
      * @return
      */
-    Response<?> endWork(Long id);
+    Response<?> endWork(EndWorkReqVO endWorkReqVO);
 }

@@ -13,7 +13,9 @@ import com.heiye.clims.work.biz.domain.mapper.WorkDOMapper;
 import com.heiye.clims.work.biz.enums.ResponseCodeEnum;
 import com.heiye.clims.work.biz.enums.WorkStatusEnum;
 import com.heiye.clims.work.biz.model.vo.AddWorkReqVO;
+import com.heiye.clims.work.biz.model.vo.EndWorkReqVO;
 import com.heiye.clims.work.biz.model.vo.FindTodayWorkRspVO;
+import com.heiye.clims.work.biz.model.vo.StartWorkReqVO;
 import com.heiye.clims.work.biz.service.WorkService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -145,11 +147,14 @@ public class WorkServiceImpl implements WorkService {
     /**
      * 开始工作计时
      *
-     * @param id
+     * @param startWorkReqVO
      * @return
      */
     @Override
-    public Response<?> startWork(Long id) {
+    public Response<?> startWork(StartWorkReqVO startWorkReqVO) {
+        // 获取工作 ID
+        Long id = startWorkReqVO.getWorkId();
+
         // 查询该工作是否存在
         WorkDO workDO = workDOMapper.selectById(id);
 
@@ -175,11 +180,14 @@ public class WorkServiceImpl implements WorkService {
     /**
      * 结束工作计时
      *
-     * @param id
+     * @param endWorkReqVO
      * @return
      */
     @Override
-    public Response<?> endWork(Long id) {
+    public Response<?> endWork(EndWorkReqVO endWorkReqVO) {
+        // 获取工作 ID
+        Long id = endWorkReqVO.getWorkId();
+
         // 查询该工作是否存在
         WorkDO workDO = workDOMapper.selectById(id);
 

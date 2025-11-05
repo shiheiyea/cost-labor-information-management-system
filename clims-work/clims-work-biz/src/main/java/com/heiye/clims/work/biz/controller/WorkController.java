@@ -2,6 +2,8 @@ package com.heiye.clims.work.biz.controller;
 
 import com.heiye.clims.framework.common.response.Response;
 import com.heiye.clims.work.biz.model.vo.AddWorkReqVO;
+import com.heiye.clims.work.biz.model.vo.EndWorkReqVO;
+import com.heiye.clims.work.biz.model.vo.StartWorkReqVO;
 import com.heiye.clims.work.biz.service.WorkService;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
@@ -48,22 +50,22 @@ public class WorkController {
     /**
      * 开始工作
      *
-     * @param id
+     * @param startWorkReqVO
      * @return
      */
-    @GetMapping("/start")
-    Response<?> startWork(@RequestParam Long id) {
-        return workService.startWork(id);
+    @PostMapping("/start")
+    Response<?> startWork(StartWorkReqVO startWorkReqVO) {
+        return workService.startWork(startWorkReqVO);
     }
 
     /**
      * 结束工作
      *
-     * @param id
+     * @param endWorkReqVO
      * @return
      */
-    @GetMapping("/end")
-    Response<?> endWork(@RequestParam Long id) {
-        return workService.endWork(id);
+    @PostMapping("/end")
+    Response<?> endWork(EndWorkReqVO endWorkReqVO) {
+        return workService.endWork(endWorkReqVO);
     }
 }
