@@ -32,4 +32,12 @@ public interface WorkService {
      * @return
      */
     Response<?> startWork(Long id);
+
+    /**
+     * 结束工作计时
+     *
+     * @param id
+     * @return
+     */
+    Response<?> endWork(Long id);
 }

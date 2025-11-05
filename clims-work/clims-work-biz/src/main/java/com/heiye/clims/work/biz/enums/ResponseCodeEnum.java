@@ -15,6 +15,7 @@ import lombok.Getter;
 public enum ResponseCodeEnum implements BaseExceptionInterface {
     // ----------- 工作服务异常状态码 -----------
     WORK_NOT_EXIST("WORK-40000", "工作信息不存在"),
+    WORK_STATUS_ERROR("WORK-40001", "工作状态异常"),
     ;
 
     // 异常码

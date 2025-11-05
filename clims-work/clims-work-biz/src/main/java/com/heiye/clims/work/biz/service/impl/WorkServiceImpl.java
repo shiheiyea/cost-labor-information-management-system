@@ -161,4 +161,66 @@ public class WorkServiceImpl implements WorkService {
         workDOMapper.updateById(workDO);
         return Response.success();
     }
+
+    /**
+     * 结束工作计时
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public Response<?> endWork(Long id) {
+        // 查询该工作是否存在
+        WorkDO workDO = workDOMapper.selectById(id);
+
+        // 为空抛出异常
+        if (Objects.isNull(workDO)) {
+            throw new BizException(ResponseCodeEnum.WORK_NOT_EXIST);
+        }
+
+        // 从缓存中获取 Stopwatch
+        Stopwatch stopwatch = workStopwatchCaffeineCache.getIfPresent(id);
+
+        // 缓存中不存在工作计时器
+        if (Objects.isNull(stopwatch)) {
+            throw new BizException(ResponseCodeEnum.WORK_STATUS_ERROR);
+        }
+
+        // 获取工作计时器已使用的毫秒数
+        long elapsedMillis = stopwatch.elapsed(TimeUnit.MILLISECONDS);
+        // 获取工作计时器已使用的时间
+        Duration duration = Duration.ofMillis(elapsedMillis);
+        // 获取到已使用的时间小时和分钟
+        long hours = duration.toHours();
+        long minutes = duration.toMinutes() - hours * 60;
+
+        // 查询制定的目标工作时间
+        String workTime = workDO.getWorkTime();
+        String[] split = workTime.split(":");
+        // 获取目标时间小时数和分钟
+        long targetHours = Long.parseLong(split[0]);
+        long targetMinutes = Long.parseLong(split[1]);
+
+        // 当工作小时已超过目标小时
+        // 或者工作小时已等于目标小时并且已工作的分钟数大于等于目标时间分钟数
+        if (hours > targetHours ||
+                (hours == targetHours && minutes >= targetMinutes)) {
+            // 正常完成工作
+            workDO.setWorkStatus(WorkStatusEnum.COMPLETED.getCode());
+        } else {
+            // 提前完成工作
+            workDO.setWorkStatus(WorkStatusEnum.EARLY_COMPLETED.getCode());
+        }
+
+        // 更新工作状态和时间
+        workDO.setUpdateTime(LocalDateTime.now());
+        workDOMapper.updateById(workDO);
+
+        // 停止工作计时器
+        stopwatch.stop();
+        // 删除缓存中的工作计时器
+        workStopwatchCaffeineCache.invalidate(id);
+
+        return Response.success();
+    }
 }
