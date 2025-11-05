@@ -2,6 +2,7 @@ package com.heiye.clims.work.biz.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.heiye.clims.framework.common.constant.DateConstants;
@@ -38,8 +39,17 @@ public class WorkServiceImpl implements WorkService {
     @Resource
     private WorkDOMapper workDOMapper;
 
-    @Resource(name = "workStopwatchCaffeineCache")
-    private Cache<Long, Stopwatch> workStopwatchCaffeineCache;
+    // 工作计时缓存
+    private final Cache<Long, Stopwatch> workStopwatchCaffeineCache = Caffeine.newBuilder()
+            // 设置初始容量为 1000 个条目
+            .initialCapacity(1000)
+            // 设置缓存的最大容量为 10000 条
+            .maximumSize(10000)
+            // 24小时自动清理
+            .expireAfterAccess(24, TimeUnit.HOURS)
+            // 最多保存7天
+            .expireAfterWrite(7, TimeUnit.DAYS)
+            .build();
 
     /**
      * 添加工作

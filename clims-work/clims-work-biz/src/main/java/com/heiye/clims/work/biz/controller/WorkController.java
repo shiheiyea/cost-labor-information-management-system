@@ -55,4 +55,15 @@ public class WorkController {
     Response<?> startWork(@RequestParam Long id) {
         return workService.startWork(id);
     }
+
+    /**
+     * 结束工作
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/end")
+    Response<?> endWork(@RequestParam Long id) {
+        return workService.endWork(id);
+    }
 }
