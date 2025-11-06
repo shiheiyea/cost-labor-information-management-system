@@ -2,6 +2,7 @@ package com.heiye.clims.service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * @author: heiye
@@ -9,6 +10,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @version: v1.0.0
  * @description: 启动类
  */
+//开启定时任务
+@EnableScheduling
 @SpringBootApplication(scanBasePackages = "com.heiye.clims")
 public class CostLaborInformationManagementSystemServerApplication {
     public static void main(String[] args) {

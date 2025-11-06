@@ -21,6 +21,8 @@ public enum WorkStatusEnum {
     COMPLETED(2),
     // 提前完成工作
     EARLY_COMPLETED(3),
+    // 没手动结束工作但达到了工作时间
+    TIME_OUT(4),
     ;
 
     private final Integer code;

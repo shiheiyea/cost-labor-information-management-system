@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
  * @version: v1.0.0
  * @description: CaffeineCache配置类
  */
-@Configuration
+@Configuration(value = "authCacheConfig")
 public class CacheConfig {
     /**
      * 验证码本地缓存

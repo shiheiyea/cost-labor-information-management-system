@@ -54,7 +54,7 @@ public class WorkController {
      * @return
      */
     @PostMapping("/start")
-    Response<?> startWork(StartWorkReqVO startWorkReqVO) {
+    Response<?> startWork(@RequestBody @Valid StartWorkReqVO startWorkReqVO) {
         return workService.startWork(startWorkReqVO);
     }
 
@@ -65,7 +65,7 @@ public class WorkController {
      * @return
      */
     @PostMapping("/end")
-    Response<?> endWork(EndWorkReqVO endWorkReqVO) {
+    Response<?> endWork(@RequestBody @Valid EndWorkReqVO endWorkReqVO) {
         return workService.endWork(endWorkReqVO);
     }
 }
