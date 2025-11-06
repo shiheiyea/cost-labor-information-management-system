@@ -122,6 +122,19 @@ public class WorkServiceImpl implements WorkService {
                 imageUrls = Lists.newArrayList(imageUrlsStr.split(","));
             }
 
+            // 处理工作计时
+            Long workHours = null;
+            Long workMinutes = null;
+            Stopwatch stopwatch = workStopwatchCaffeineCache.getIfPresent(workDO.getId());
+            if (Objects.nonNull(stopwatch)) {
+                // 获取工作时长
+                Duration duration = stopwatch.elapsed();
+
+                // 赋值
+                workHours = duration.toHours();
+                workMinutes = duration.toMinutes() - duration.toHours() * 60;
+            }
+
             findTodayWorkRspVO = FindTodayWorkRspVO.builder()
                     .id(workDO.getId())
                     .workName(workDO.getWorkName())
@@ -129,6 +142,8 @@ public class WorkServiceImpl implements WorkService {
                     .workContent(workDO.getWorkContent())
                     .workTime(workDO.getWorkTime())
                     .imageUrls(imageUrls)
+                    .workHours(workHours)
+                    .workMinutes(workMinutes)
                     .build();
         }
 

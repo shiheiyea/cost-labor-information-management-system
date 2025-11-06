@@ -30,5 +30,12 @@ public class FindTodayWorkRspVO {
 
     private String workTime;
 
-    private Integer workStartTime;
+    /**
+     * 工作计时：小时
+     */
+    private Long workHours;
+    /**
+     * 工作计时：分钟
+     */
+    private Long workMinutes;
 }
