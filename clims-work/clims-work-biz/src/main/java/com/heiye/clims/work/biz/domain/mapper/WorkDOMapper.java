@@ -1,5 +1,6 @@
 package com.heiye.clims.work.biz.domain.mapper;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -25,9 +26,14 @@ public interface WorkDOMapper extends BaseMapper<WorkDO> {
                 .apply("date(create_time) = curdate()")
                 .orderByDesc(WorkDO::getCreateTime);
 
-        WorkDO workDOS = selectOne(lambdaQueryWrapper);
+        List<WorkDO> workDOS = selectList(lambdaQueryWrapper);
 
-        return workDOS;
+        // 为空则返回 null
+        if (CollUtil.isEmpty(workDOS)) {
+            return null;
+        }
+
+        return workDOS.getFirst();
     }
 
     /**
@@ -46,6 +52,7 @@ public interface WorkDOMapper extends BaseMapper<WorkDO> {
         LambdaQueryWrapper<WorkDO> lambdaQueryWrapper = Wrappers.<WorkDO>lambdaQuery()
                 .eq(WorkDO::getUserId, userId)
                 .ne(WorkDO::getWorkStatus, WorkStatusEnum.WORKING.getCode())
+                .ne(WorkDO::getWorkStatus, WorkStatusEnum.NOT_STARTED.getCode())
                 .orderByDesc(WorkDO::getCreateTime);
 
         return selectPage(page, lambdaQueryWrapper);
