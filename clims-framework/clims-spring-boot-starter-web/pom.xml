@@ -9,6 +9,7 @@
         <version>${revision}</version>
     </parent>
 
+    <packaging>jar</packaging>
     <artifactId>clims-spring-boot-starter-web</artifactId>
     <dependencies>
         <dependency>
