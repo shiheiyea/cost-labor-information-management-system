@@ -1,4 +1,4 @@
-package com.heiye.clims.framework.config;
+package com.heiye.clims.framework.mybatis.config;
 
 
 import com.baomidou.mybatisplus.annotation.DbType;

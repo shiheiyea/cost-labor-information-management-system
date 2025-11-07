@@ -1,4 +1,4 @@
-package com.heiye.clims.framework.response;
+package com.heiye.clims.framework.mybatis.response;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.heiye.clims.framework.common.response.Response;
