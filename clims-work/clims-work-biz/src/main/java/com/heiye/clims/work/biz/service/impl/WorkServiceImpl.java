@@ -1,6 +1,7 @@
 package com.heiye.clims.work.biz.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalCause;
@@ -8,14 +9,12 @@ import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.heiye.clims.framework.common.exception.BizException;
 import com.heiye.clims.framework.common.response.Response;
+import com.heiye.clims.framework.response.PageResponse;
 import com.heiye.clims.work.biz.domain.dos.WorkDO;
 import com.heiye.clims.work.biz.domain.mapper.WorkDOMapper;
 import com.heiye.clims.work.biz.enums.ResponseCodeEnum;
 import com.heiye.clims.work.biz.enums.WorkStatusEnum;
-import com.heiye.clims.work.biz.model.vo.AddWorkReqVO;
-import com.heiye.clims.work.biz.model.vo.EndWorkReqVO;
-import com.heiye.clims.work.biz.model.vo.FindTodayWorkRspVO;
-import com.heiye.clims.work.biz.model.vo.StartWorkReqVO;
+import com.heiye.clims.work.biz.model.vo.*;
 import com.heiye.clims.work.biz.service.WorkService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +26,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * @author: heiye
@@ -112,15 +112,8 @@ public class WorkServiceImpl implements WorkService {
         // 查询到今日工作就构建返回结果
         if (Objects.nonNull(workDO)) {
 
-            // 获取图片链接处理字符串
-            String imageUrlsStr = workDO.getImageUrls();
-
             // 处理图片链接
-            List<String> imageUrls = null;
-            // 不为空则处理链接
-            if (StringUtils.isNotBlank(imageUrlsStr)) {
-                imageUrls = Lists.newArrayList(imageUrlsStr.split(","));
-            }
+            List<String> imageUrls = imageUrlStrtoList(workDO.getImageUrls());
 
             // 处理工作计时
             Long workHours = null;
@@ -246,5 +239,68 @@ public class WorkServiceImpl implements WorkService {
         workStopwatchCaffeineCache.invalidate(id);
 
         return Response.success();
+    }
+
+    /**
+     * 查询历史工作记录
+     *
+     * @param findHistoryWorkReqVO
+     * @return
+     */
+    @Override
+    public Response<?> findHistoryWork(FindHistoryWorkReqVO findHistoryWorkReqVO) {
+        // TODO: 获取登录用户 ID
+        Long userId = 1L;
+
+        // 获取页码和页数
+        Long current = findHistoryWorkReqVO.getCurrent();
+        Long size = findHistoryWorkReqVO.getSize();
+
+        // 分页查询数据
+        Page<WorkDO> workDOPage = workDOMapper.findHistoryWork(userId, current, size);
+
+        // 获取分页数据
+        List<WorkDO> records = workDOPage.getRecords();
+
+        // 构建返回数据
+        List<FindHistoryWorkRspVO> findHistoryWorkRspVOList = Lists.newArrayList();
+
+        records.forEach(workDO -> {
+            // 处理图片链接
+            List<String> imageUrls = imageUrlStrtoList(workDO.getImageUrls());
+
+            // 构建返回数据
+            FindHistoryWorkRspVO findHistoryWorkRspVO = FindHistoryWorkRspVO.builder()
+                    .id(workDO.getId())
+                    .imageUrls(imageUrls)
+                    .workTime(workDO.getWorkTime())
+                    .workName(workDO.getWorkName())
+                    .workPlace(workDO.getWorkPlace())
+                    .workStatus(workDO.getWorkStatus())
+                    .workContent(workDO.getWorkContent())
+                    .build();
+
+            findHistoryWorkRspVOList.add(findHistoryWorkRspVO);
+        });
+
+        return PageResponse.success(workDOPage, findHistoryWorkRspVOList);
+    }
+
+    /**
+     * 图片链接处理
+     *
+     * @param imageUrlsStr
+     * @return
+     */
+    private static List<String> imageUrlStrtoList(String imageUrlsStr) {
+
+        // 处理图片链接
+        List<String> imageUrls = null;
+        // 不为空则处理链接
+        if (StringUtils.isNotBlank(imageUrlsStr)) {
+            imageUrls = Lists.newArrayList(imageUrlsStr.split(","));
+        }
+
+        return imageUrls;
     }
 }

@@ -3,6 +3,7 @@ package com.heiye.clims.work.biz.controller;
 import com.heiye.clims.framework.common.response.Response;
 import com.heiye.clims.work.biz.model.vo.AddWorkReqVO;
 import com.heiye.clims.work.biz.model.vo.EndWorkReqVO;
+import com.heiye.clims.work.biz.model.vo.FindHistoryWorkReqVO;
 import com.heiye.clims.work.biz.model.vo.StartWorkReqVO;
 import com.heiye.clims.work.biz.service.WorkService;
 import jakarta.annotation.Resource;
@@ -67,5 +68,16 @@ public class WorkController {
     @PostMapping("/end")
     Response<?> endWork(@RequestBody @Valid EndWorkReqVO endWorkReqVO) {
         return workService.endWork(endWorkReqVO);
+    }
+
+    /**
+     * 查询历史工作记录
+     *
+     * @param findHistoryWorkReqVO
+     * @return
+     */
+    @PostMapping("/list")
+    Response<?> findHistoryWork(@RequestBody @Valid FindHistoryWorkReqVO findHistoryWorkReqVO) {
+        return workService.findHistoryWork(findHistoryWorkReqVO);
     }
 }

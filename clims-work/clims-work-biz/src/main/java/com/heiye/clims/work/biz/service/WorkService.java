@@ -3,6 +3,7 @@ package com.heiye.clims.work.biz.service;
 import com.heiye.clims.framework.common.response.Response;
 import com.heiye.clims.work.biz.model.vo.AddWorkReqVO;
 import com.heiye.clims.work.biz.model.vo.EndWorkReqVO;
+import com.heiye.clims.work.biz.model.vo.FindHistoryWorkReqVO;
 import com.heiye.clims.work.biz.model.vo.StartWorkReqVO;
 
 /**
@@ -42,4 +43,12 @@ public interface WorkService {
      * @return
      */
     Response<?> endWork(EndWorkReqVO endWorkReqVO);
+
+    /**
+     * 查询历史工作记录
+     *
+     * @param findHistoryWorkReqVO
+     * @return
+     */
+    Response<?> findHistoryWork(FindHistoryWorkReqVO findHistoryWorkReqVO);
 }

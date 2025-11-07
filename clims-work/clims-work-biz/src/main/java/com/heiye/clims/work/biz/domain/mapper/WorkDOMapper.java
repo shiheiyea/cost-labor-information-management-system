@@ -3,7 +3,9 @@ package com.heiye.clims.work.biz.domain.mapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.heiye.clims.work.biz.domain.dos.WorkDO;
+import com.heiye.clims.work.biz.enums.WorkStatusEnum;
 
 import java.util.List;
 
@@ -26,5 +28,26 @@ public interface WorkDOMapper extends BaseMapper<WorkDO> {
         WorkDO workDOS = selectOne(lambdaQueryWrapper);
 
         return workDOS;
+    }
+
+    /**
+     * 查询历史工作记录
+     *
+     * @param userId
+     * @param current
+     * @param size
+     * @return
+     */
+    default Page<WorkDO> findHistoryWork(Long userId, Long current, Long size) {
+        // 分页对象(查询第几页、每页多少数据)
+        Page<WorkDO> page = new Page<>(current, size);
+
+        // 构建查询条件
+        LambdaQueryWrapper<WorkDO> lambdaQueryWrapper = Wrappers.<WorkDO>lambdaQuery()
+                .eq(WorkDO::getUserId, userId)
+                .ne(WorkDO::getWorkStatus, WorkStatusEnum.WORKING.getCode())
+                .orderByDesc(WorkDO::getCreateTime);
+
+        return selectPage(page, lambdaQueryWrapper);
     }
 }

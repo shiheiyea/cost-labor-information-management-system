@@ -1,4 +1,4 @@
-package com.heiye.clims.framework.config;
+package com.heiye.clims.framework;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
