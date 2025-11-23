@@ -25,7 +25,7 @@ public class RegisterReqVO {
      */
     @NotEmpty(message = "密码不能为空")
     @Length(min = 8, max = 20, message = "密码长度为 4-16 位")
-    @Pattern(regexp = ParamUtils.PASSWORD_REGEX, message = "请让密码至少1个大写字母至少1个小写、至少1个数字和至少1个特殊字符")
+    @Pattern(regexp = ParamUtils.PASSWORD_REGEX, message = "请让密码至少1个大写字母至少1个小写、至少1个数字")
     private String password;
 
     /**
