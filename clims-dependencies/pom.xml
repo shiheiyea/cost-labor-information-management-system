@@ -31,7 +31,9 @@
         <guava.version>33.0.0-jre</guava.version>
 
         <transmittable-thread-local.version>2.14.2</transmittable-thread-local.version>
+        <!-- 对象存储相关 -->
         <qiniu.version>7.9.0</qiniu.version>
+        <aliyun-sdk-oss.version>3.17.4</aliyun-sdk-oss.version>
     </properties>
 
     <dependencyManagement>
@@ -186,10 +188,18 @@
                 <version>${transmittable-thread-local.version}</version>
             </dependency>
 
+            <!-- 对象存储服务相关 -->
+            <!-- 七牛云 -->
             <dependency>
                 <groupId>com.qiniu</groupId>
                 <artifactId>qiniu-java-sdk</artifactId>
                 <version>${qiniu.version}</version>
+            </dependency>
+            <!-- 阿里云 OSS -->
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${aliyun-sdk-oss.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
