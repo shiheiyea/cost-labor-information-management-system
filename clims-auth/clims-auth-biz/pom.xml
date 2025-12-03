@@ -22,11 +22,6 @@
             <artifactId>clims-spring-boot-starter-jackson</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.heiye.clims</groupId>
-            <artifactId>clims-spring-boot-starter-web</artifactId>
-        </dependency>
-
         <!-- Sa-Token 权限认证 -->
         <dependency>
             <groupId>cn.dev33</groupId>

@@ -37,6 +37,11 @@
             <artifactId>clims-work-biz</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.heiye.clims</groupId>
+            <artifactId>clims-spring-boot-starter-web</artifactId>
+        </dependency>
+
         <!-- spring boot 配置所需依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

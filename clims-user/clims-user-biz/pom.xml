@@ -35,8 +35,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.heiye.clims</groupId>
-            <artifactId>clims-spring-boot-starter-web</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
         <!-- Spring Boot Test -->
