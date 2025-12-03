@@ -54,7 +54,7 @@ public class AliyunOSSFileStrategy implements FileStrategy {
 
         // 判断文件是否为空
         if (file == null || file.getSize() == 0) {
-            log.error("==> 上传用户头像异常：用户头像大小为空 ...");
+            log.error("==> 上传用户头像异常：文件大小为空 ...");
             throw new BizException(ResponseCodeEnum.FILE_SIZE_EMPTY);
         }
 
@@ -72,14 +72,14 @@ public class AliyunOSSFileStrategy implements FileStrategy {
         // 拼接上文件后缀，即为要存储的文件名
         String objectName = String.format("%s%s", key, suffix);
 
-        log.info("==> 开始上传用户头像至阿里云 OSS, ObjectName: {}", objectName);
+        log.info("==> 开始上传文件至阿里云 OSS, ObjectName: {}", objectName);
 
         // 上传文件到阿里云 OSS
         ossClient.putObject(bucketName, objectName, new ByteArrayInputStream(file.getInputStream().readAllBytes()));
 
         // 放回文件的访问链接
         String url = String.format("https://%s.%s/%s", bucketName, aliyunOSSProperties.getEndpoint(), objectName);
-        log.info("==> 上传用户头像至阿里云 OSS 成功，访问路径: {}", url);
+        log.info("==> 上传文件至阿里云 OSS 成功，访问路径: {}", url);
 
         return url;
     }

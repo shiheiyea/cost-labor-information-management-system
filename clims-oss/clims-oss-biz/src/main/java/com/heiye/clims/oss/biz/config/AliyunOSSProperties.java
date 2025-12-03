@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  */
 @Data
 @Component
-@ConfigurationProperties(prefix = "storage.aliyun-oss")
+@ConfigurationProperties(prefix = "aliyun-oss")
 public class AliyunOSSProperties {
     private String endpoint;
     private String accessKey;
