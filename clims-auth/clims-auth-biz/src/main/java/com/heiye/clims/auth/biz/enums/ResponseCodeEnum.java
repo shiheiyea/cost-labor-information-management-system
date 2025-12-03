@@ -22,6 +22,7 @@ public enum ResponseCodeEnum implements BaseExceptionInterface {
     EMAIL_CHECK_USER_NOT_EXIST("AUTH-20005", "该邮箱还未被注册"),
     USER_NOT_EXIST("AUTH-20006", "用户不存在"),
     USER_PASSWORD_ERROR("AUTH-20007", "密码输入错误"),
+    REGISTER_FAILED("AUTH-20008", "注册失败")
     ;
 
     // 异常码

@@ -1,5 +1,6 @@
 package com.heiye.clims.auth.biz.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.heiye.clims.auth.biz.enums.ResponseCodeEnum;
 import com.heiye.clims.auth.biz.factory.LoginStrategyFactory;
@@ -14,6 +15,7 @@ import com.heiye.clims.user.api.api.UserApi;
 import com.heiye.clims.user.api.dto.FindUserByEmailReqDTO;
 import com.heiye.clims.user.api.dto.FindUserByEmailRspDTO;
 import com.heiye.clims.user.api.dto.UserRegisterReqDTO;
+import com.heiye.clims.user.api.dto.UserRegisterRspDTO;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -76,12 +78,34 @@ public class AuthServiceImpl implements AuthService {
                 .email(email)
                 .password(registerReqVO.getPassword())
                 .build();
-        userApi.register(userRegisterReqDTO);
+
+        // 创建用户
+        UserRegisterRspDTO userRegisterRspDTO = userApi.register(userRegisterReqDTO);
+
+        if (Objects.isNull(userRegisterRspDTO)) {
+            throw new BizException(ResponseCodeEnum.REGISTER_FAILED);
+        }
+
+        // 获取用户ID
+        Long userId = userRegisterRspDTO.getId();
 
         // 4. 删除缓存的验证码
         emailCaffeineCache.invalidate(email);
 
-        return Response.success();
+        // 5. sa-token 登录
+        StpUtil.login(userId);
+
+        // 6. 获取token
+        String token = StpUtil.getTokenInfo().tokenValue;
+
+        // 7. 返回结果
+        RegisterFinishRspVO registerFinishRspVO = RegisterFinishRspVO.builder()
+                .userId(userId)
+                .finish(false)
+                .token(token)
+                .build();
+
+        return Response.success(registerFinishRspVO);
     }
 
     /**
