@@ -3,6 +3,7 @@ package com.heiye.clims.user.biz.service.impl;
 import com.google.common.base.Preconditions;
 import com.heiye.clims.framework.common.exception.BizException;
 import com.heiye.clims.framework.common.response.Response;
+import com.heiye.clims.framework.common.thread.LoginUserContextHolder;
 import com.heiye.clims.framework.common.util.ParamUtils;
 import com.heiye.clims.user.biz.domain.dos.UserDO;
 import com.heiye.clims.user.biz.domain.mapper.UserDOMapper;
@@ -47,8 +48,8 @@ public class UserServiceImpl implements UserService {
         String avatar = updateUserInfoReqVO.getAvatar();
 
         // TODO: 获取用户登录 ID
-//        Long loginUserId = LoginUserContextHolder.getUserId();
-        Long loginUserId = 1L;
+        Long loginUserId = LoginUserContextHolder.getUserId();
+//        Long loginUserId = 2L;
 
         // 非号主本人，无法修改其个人信息
         if (!Objects.equals(loginUserId, userId)) {

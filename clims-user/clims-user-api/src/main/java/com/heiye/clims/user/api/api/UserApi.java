@@ -3,6 +3,7 @@ package com.heiye.clims.user.api.api;
 import com.heiye.clims.user.api.dto.FindUserByEmailReqDTO;
 import com.heiye.clims.user.api.dto.FindUserByEmailRspDTO;
 import com.heiye.clims.user.api.dto.UserRegisterReqDTO;
+import com.heiye.clims.user.api.dto.UserRegisterRspDTO;
 
 /**
  * @author: heiye
@@ -25,5 +26,5 @@ public interface UserApi {
      * @param userRegisterReqDTO
      * @return
      */
-    void register(UserRegisterReqDTO userRegisterReqDTO);
+    UserRegisterRspDTO register(UserRegisterReqDTO userRegisterReqDTO);
 }

@@ -59,6 +59,7 @@ public class PasswordLoginStrategy implements LoginStrategy {
 
         // 构建返参
         RegisterFinishRspVO registerFinishRspVO = RegisterFinishRspVO.builder()
+                .userId(findUserByEmailRspDTO.getId())
                 .finish(true)
                 .token("")
                 .build();

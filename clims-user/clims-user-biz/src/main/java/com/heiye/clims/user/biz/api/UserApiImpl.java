@@ -7,6 +7,7 @@ import com.heiye.clims.user.api.api.UserApi;
 import com.heiye.clims.user.api.dto.FindUserByEmailReqDTO;
 import com.heiye.clims.user.api.dto.FindUserByEmailRspDTO;
 import com.heiye.clims.user.api.dto.UserRegisterReqDTO;
+import com.heiye.clims.user.api.dto.UserRegisterRspDTO;
 import com.heiye.clims.user.biz.domain.dos.UserDO;
 import com.heiye.clims.user.biz.domain.mapper.UserDOMapper;
 import jakarta.annotation.Resource;
@@ -46,7 +47,7 @@ public class UserApiImpl implements UserApi {
         // 查询用户信息
         UserDO userDO = userDOMapper.selectOne(Wrappers.<UserDO>lambdaQuery()
                 .eq(UserDO::getEmail, email)
-                .eq(UserDO::getIsDeleted, DeleteEnum.NO));
+                .eq(UserDO::getIsDeleted, DeleteEnum.NO.getCode()));
 
         // 用户不存在
         if (Objects.isNull(userDO)) {
@@ -56,7 +57,9 @@ public class UserApiImpl implements UserApi {
         // 构建返回结果
         return FindUserByEmailRspDTO.builder()
                 .id(userDO.getId())
+                .nickname(userDO.getNickname())
                 .password(userDO.getPassword())
+                .avatar(userDO.getAvatar())
                 .build();
     }
 
@@ -67,7 +70,7 @@ public class UserApiImpl implements UserApi {
      * @return
      */
     @Override
-    public void register(UserRegisterReqDTO userRegisterReqDTO) {
+    public UserRegisterRspDTO register(UserRegisterReqDTO userRegisterReqDTO) {
         // 创建用户
         UserDO userDO = UserDO.builder()
                 .avatar("")
@@ -81,5 +84,10 @@ public class UserApiImpl implements UserApi {
                 .build();
 
         userDOMapper.insert(userDO);
+
+        // 构建返回结果
+        return UserRegisterRspDTO.builder()
+                .id(userDO.getId())
+                .build();
     }
 }

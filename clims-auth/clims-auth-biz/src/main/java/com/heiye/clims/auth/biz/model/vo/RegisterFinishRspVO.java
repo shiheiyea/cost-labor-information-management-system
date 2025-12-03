@@ -17,6 +17,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RegisterFinishRspVO {
     /**
+     * 用户 ID
+     */
+    private Long userId;
+    /**
      * 是否完成
      */
     private Boolean finish;
