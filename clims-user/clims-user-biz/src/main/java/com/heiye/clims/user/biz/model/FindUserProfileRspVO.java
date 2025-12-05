@@ -20,6 +20,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FindUserProfileRspVO {
+    private Long userId;
+
     private String nickname;
 
     private String avatar;

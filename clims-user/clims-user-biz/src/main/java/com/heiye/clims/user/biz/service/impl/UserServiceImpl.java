@@ -105,6 +105,7 @@ public class UserServiceImpl implements UserService {
 
         // 构建返回结果
         FindUserProfileRspVO findUserProfileRspVO = FindUserProfileRspVO.builder()
+                .userId(userDO.getId())
                 .nickname(userDO.getNickname())
                 .avatar(userDO.getAvatar())
                 .build();
