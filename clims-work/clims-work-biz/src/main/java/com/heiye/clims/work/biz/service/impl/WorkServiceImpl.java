@@ -21,6 +21,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -79,7 +81,7 @@ public class WorkServiceImpl implements WorkService {
                 .workName(addWorkRepVO.getWorkName())
                 .workPlace(addWorkRepVO.getWorkPlace())
                 .workContent(addWorkRepVO.getWorkContent())
-                .workTime(addWorkRepVO.getWorkTime())
+                .workTargetTime(addWorkRepVO.getWorkTime())
                 .createTime(LocalDateTime.now())
                 .updateTime(LocalDateTime.now())
                 .workStatus(WorkStatusEnum.NOT_STARTED.getCode())
@@ -125,15 +127,31 @@ public class WorkServiceImpl implements WorkService {
                 workMinutes = duration.toMinutes() - duration.toHours() * 60;
             }
 
+            // 处理工作目标时间
+            String workTargetHours = "";
+            String workTargetMinutes = "";
+            // 获取工作目标时间
+            String workTargetTime = workDO.getWorkTargetTime();
+            if (StringUtils.isNotBlank(workTargetTime)) {
+                // 切分字符串
+                String[] split = workTargetTime.split(":");
+
+                // 赋值
+                workTargetHours = split[0];
+                workTargetMinutes = split[1];
+            }
+
             findTodayWorkRspVO = FindTodayWorkRspVO.builder()
                     .id(workDO.getId())
                     .workName(workDO.getWorkName())
                     .workPlace(workDO.getWorkPlace())
                     .workContent(workDO.getWorkContent())
-                    .workTime(workDO.getWorkTime())
                     .imageUrls(imageUrls)
                     .workHours(workHours)
                     .workMinutes(workMinutes)
+                    .workTargetHours(workTargetHours)
+                    .workTargetMinutes(workTargetMinutes)
+                    .workStatus(workDO.getWorkStatus())
                     .build();
         }
 
@@ -209,8 +227,8 @@ public class WorkServiceImpl implements WorkService {
         long minutes = duration.toMinutes() - hours * 60;
 
         // 查询制定的目标工作时间
-        String workTime = workDO.getWorkTime();
-        String[] split = workTime.split(":");
+        String workTargetTime = workDO.getWorkTargetTime();
+        String[] split = workTargetTime.split(":");
         // 获取目标时间小时数和分钟
         long targetHours = Long.parseLong(split[0]);
         long targetMinutes = Long.parseLong(split[1]);
@@ -266,15 +284,47 @@ public class WorkServiceImpl implements WorkService {
             // 处理图片链接
             List<String> imageUrls = imageUrlStrtoList(workDO.getImageUrls());
 
+            // 工作时间
+            String workTargetTime = workDO.getWorkTargetTime();
+
+            // 获取工作状态
+            Integer workStatus = workDO.getWorkStatus();
+
+            // 工作完成时间
+            String workHours = null;
+            String workMinutes = null;
+
+            // 获取工作状态枚举
+            WorkStatusEnum workStatusEnum = WorkStatusEnum.getWorkStatusEnum(workStatus);
+
+            switch (workStatusEnum) {
+                case COMPLETED, TIME_OUT -> {
+                    // 获取工作完成时间
+                    String[] split = workTargetTime.split(":");
+                    // 赋值工作完成时间小时数和分钟
+                    workHours = split[0];
+                    workMinutes = split[1];
+                }
+                case EARLY_COMPLETED -> {
+                    // 计算提前完成工作时间
+                    long hours = workDO.getWorkStartTime().until(workDO.getUpdateTime(), ChronoUnit.HOURS);
+                    long minutes = workDO.getWorkStartTime().until(workDO.getUpdateTime(), ChronoUnit.MINUTES) - hours * 60;
+                    // 重新完成时间
+                    workHours = String.valueOf(hours);
+                    workMinutes = String.valueOf(minutes);
+                }
+            }
+
             // 构建返回数据
             FindHistoryWorkRspVO findHistoryWorkRspVO = FindHistoryWorkRspVO.builder()
                     .id(workDO.getId())
                     .imageUrls(imageUrls)
-                    .workTime(workDO.getWorkTime())
                     .workName(workDO.getWorkName())
                     .workPlace(workDO.getWorkPlace())
                     .workStatus(workDO.getWorkStatus())
                     .workContent(workDO.getWorkContent())
+                    .workTimeHours(workHours)
+                    .workTimeMinutes(workMinutes)
                     .build();
 
             findHistoryWorkRspVOList.add(findHistoryWorkRspVO);
