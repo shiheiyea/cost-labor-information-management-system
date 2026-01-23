@@ -31,12 +31,12 @@ public class FindHistoryWorkRspVO {
     /**
      * 工作完成时间：小时
      */
-    private String workTimeHours;
+    private Long workTimeHours;
 
     /**
      * 工作完成时间：分钟
      */
-    private String workTimeMinutes;
+    private Long workTimeMinutes;
 
     private Integer workStatus;
 }

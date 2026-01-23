@@ -40,12 +40,12 @@ public class FindTodayWorkRspVO {
     /**
      * 工作目标时间：小时
      */
-    private String workTargetHours;
+    private Long workTargetHours;
 
     /**
      * 工作目标时间：分钟
      */
-    private String workTargetMinutes;
+    private Long workTargetMinutes;
 
     private Integer workStatus;
 }

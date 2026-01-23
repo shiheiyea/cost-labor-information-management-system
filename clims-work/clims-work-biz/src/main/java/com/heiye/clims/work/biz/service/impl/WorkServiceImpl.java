@@ -128,8 +128,8 @@ public class WorkServiceImpl implements WorkService {
             }
 
             // 处理工作目标时间
-            String workTargetHours = "";
-            String workTargetMinutes = "";
+            Long workTargetHours = null;
+            Long workTargetMinutes = null;
             // 获取工作目标时间
             String workTargetTime = workDO.getWorkTargetTime();
             if (StringUtils.isNotBlank(workTargetTime)) {
@@ -137,8 +137,8 @@ public class WorkServiceImpl implements WorkService {
                 String[] split = workTargetTime.split(":");
 
                 // 赋值
-                workTargetHours = split[0];
-                workTargetMinutes = split[1];
+                workTargetHours = Long.valueOf(split[0]);
+                workTargetMinutes = Long.parseLong(split[1]);
             }
 
             findTodayWorkRspVO = FindTodayWorkRspVO.builder()
@@ -291,8 +291,8 @@ public class WorkServiceImpl implements WorkService {
             Integer workStatus = workDO.getWorkStatus();
 
             // 工作完成时间
-            String workHours = null;
-            String workMinutes = null;
+            Long workHours = null;
+            Long workMinutes = null;
 
             // 获取工作状态枚举
             WorkStatusEnum workStatusEnum = WorkStatusEnum.getWorkStatusEnum(workStatus);
@@ -302,16 +302,13 @@ public class WorkServiceImpl implements WorkService {
                     // 获取工作完成时间
                     String[] split = workTargetTime.split(":");
                     // 赋值工作完成时间小时数和分钟
-                    workHours = split[0];
-                    workMinutes = split[1];
+                    workHours = Long.valueOf(split[0]);
+                    workMinutes = Long.valueOf(split[1]);
                 }
                 case EARLY_COMPLETED -> {
                     // 计算提前完成工作时间
-                    long hours = workDO.getWorkStartTime().until(workDO.getUpdateTime(), ChronoUnit.HOURS);
-                    long minutes = workDO.getWorkStartTime().until(workDO.getUpdateTime(), ChronoUnit.MINUTES) - hours * 60;
-                    // 重新完成时间
-                    workHours = String.valueOf(hours);
-                    workMinutes = String.valueOf(minutes);
+                    workHours = workDO.getWorkStartTime().until(workDO.getUpdateTime(), ChronoUnit.HOURS);
+                    workMinutes = workDO.getWorkStartTime().until(workDO.getUpdateTime(), ChronoUnit.MINUTES) - workHours * 60;
                 }
             }
 
