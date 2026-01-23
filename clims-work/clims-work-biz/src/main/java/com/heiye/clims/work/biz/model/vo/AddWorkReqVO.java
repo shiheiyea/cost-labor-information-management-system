@@ -28,8 +28,8 @@ public class AddWorkReqVO {
     @NotEmpty(message = "工作地点不能为空")
     private String workPlace;
 
-    @NotEmpty(message = "工作时间不能为空")
-    private String workTime;
+    @NotEmpty(message = "工作目标时间不能为空")
+    private String workTargetTime;
 
     private List<String> imageUrls;
 }

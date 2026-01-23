@@ -81,7 +81,7 @@ public class WorkServiceImpl implements WorkService {
                 .workName(addWorkRepVO.getWorkName())
                 .workPlace(addWorkRepVO.getWorkPlace())
                 .workContent(addWorkRepVO.getWorkContent())
-                .workTargetTime(addWorkRepVO.getWorkTime())
+                .workTargetTime(addWorkRepVO.getWorkTargetTime())
                 .createTime(LocalDateTime.now())
                 .updateTime(LocalDateTime.now())
                 .workStatus(WorkStatusEnum.NOT_STARTED.getCode())
