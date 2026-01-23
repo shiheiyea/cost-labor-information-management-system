@@ -21,7 +21,13 @@ public interface WorkDOMapper extends BaseMapper<WorkDO> {
 
         // 获取今日工作
         LambdaQueryWrapper<WorkDO> lambdaQueryWrapper = Wrappers.<WorkDO>lambdaQuery()
-                .select(WorkDO::getId, WorkDO::getWorkName, WorkDO::getWorkPlace, WorkDO::getWorkContent, WorkDO::getWorkTime, WorkDO::getImageUrls)
+                .select(WorkDO::getId,
+                        WorkDO::getWorkName,
+                        WorkDO::getWorkPlace,
+                        WorkDO::getWorkContent,
+                        WorkDO::getWorkTargetTime,
+                        WorkDO::getImageUrls,
+                        WorkDO::getWorkStatus)
                 .eq(WorkDO::getUserId, userId)
                 .apply("date(create_time) = curdate()")
                 .orderByDesc(WorkDO::getCreateTime);
