@@ -36,7 +36,7 @@ public class WorkDO {
 
     private String workPlace;
 
-    private String workTime;
+    private String workTargetTime;
 
     private LocalDateTime workStartTime;
 
