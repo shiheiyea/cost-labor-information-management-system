@@ -26,4 +26,13 @@ public enum WorkStatusEnum {
     ;
 
     private final Integer code;
+
+    public static WorkStatusEnum getWorkStatusEnum(Integer code) {
+        for (WorkStatusEnum value : values()) {
+            if (value.code.equals(code)) {
+                return value;
+            }
+        }
+        return null;
+    }
 }
