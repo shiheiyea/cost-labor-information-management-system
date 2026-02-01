@@ -32,8 +32,9 @@ public interface WorkDOMapper extends BaseMapper<WorkDO> {
                         WorkDO::getName,
                         WorkDO::getPlace,
                         WorkDO::getContent,
-                        WorkDO::getActualDuration,
+                        WorkDO::getTargetDuration,
                         WorkDO::getImageUrls,
+                        WorkDO::getStartTime,
                         WorkDO::getStatus)
                 .eq(WorkDO::getUserId, userId)
                 // 2. 使用范围查询
