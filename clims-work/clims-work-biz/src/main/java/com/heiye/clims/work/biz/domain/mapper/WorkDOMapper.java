@@ -8,6 +8,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.heiye.clims.work.biz.domain.dos.WorkDO;
 import com.heiye.clims.work.biz.enums.WorkStatusEnum;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -19,6 +22,10 @@ import java.util.List;
 public interface WorkDOMapper extends BaseMapper<WorkDO> {
     default WorkDO findTodayWork(Long userId) {
 
+        // 获取今日的零点和终点，避免在 SQL 中使用函数以利用索引
+        LocalDateTime todayStart = LocalDate.now().atStartOfDay();
+        LocalDateTime todayEnd = LocalDate.now().atTime(LocalTime.MAX);
+
         // 获取今日工作
         LambdaQueryWrapper<WorkDO> lambdaQueryWrapper = Wrappers.<WorkDO>lambdaQuery()
                 .select(WorkDO::getId,
@@ -29,17 +36,11 @@ public interface WorkDOMapper extends BaseMapper<WorkDO> {
                         WorkDO::getImageUrls,
                         WorkDO::getStatus)
                 .eq(WorkDO::getUserId, userId)
-                .apply("date(create_time) = curdate()")
+                // 2. 使用范围查询
+                .between(WorkDO::getCreateTime, todayStart, todayEnd)
                 .orderByDesc(WorkDO::getCreateTime);
 
-        List<WorkDO> workDOS = selectList(lambdaQueryWrapper);
-
-        // 为空则返回 null
-        if (CollUtil.isEmpty(workDOS)) {
-            return null;
-        }
-
-        return workDOS.getFirst();
+        return selectOne(lambdaQueryWrapper);
     }
 
     /**
