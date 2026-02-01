@@ -22,12 +22,12 @@ public interface WorkDOMapper extends BaseMapper<WorkDO> {
         // 获取今日工作
         LambdaQueryWrapper<WorkDO> lambdaQueryWrapper = Wrappers.<WorkDO>lambdaQuery()
                 .select(WorkDO::getId,
-                        WorkDO::getWorkName,
-                        WorkDO::getWorkPlace,
-                        WorkDO::getWorkContent,
-                        WorkDO::getWorkTargetTime,
+                        WorkDO::getName,
+                        WorkDO::getPlace,
+                        WorkDO::getContent,
+                        WorkDO::getActualDuration,
                         WorkDO::getImageUrls,
-                        WorkDO::getWorkStatus)
+                        WorkDO::getStatus)
                 .eq(WorkDO::getUserId, userId)
                 .apply("date(create_time) = curdate()")
                 .orderByDesc(WorkDO::getCreateTime);
@@ -57,8 +57,8 @@ public interface WorkDOMapper extends BaseMapper<WorkDO> {
         // 构建查询条件
         LambdaQueryWrapper<WorkDO> lambdaQueryWrapper = Wrappers.<WorkDO>lambdaQuery()
                 .eq(WorkDO::getUserId, userId)
-                .ne(WorkDO::getWorkStatus, WorkStatusEnum.WORKING.getCode())
-                .ne(WorkDO::getWorkStatus, WorkStatusEnum.NOT_STARTED.getCode())
+                .ne(WorkDO::getStatus, WorkStatusEnum.WORKING.getCode())
+                .ne(WorkDO::getStatus, WorkStatusEnum.NOT_STARTED.getCode())
                 .orderByDesc(WorkDO::getCreateTime);
 
         return selectPage(page, lambdaQueryWrapper);

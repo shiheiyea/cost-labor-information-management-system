@@ -48,5 +48,5 @@ public class WorkDO {
 
     private LocalDateTime updateTime;
 
-    private Integer workStatus;
+    private Integer status;
 }

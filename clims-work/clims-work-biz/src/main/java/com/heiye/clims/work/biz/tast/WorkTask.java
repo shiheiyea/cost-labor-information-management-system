@@ -51,7 +51,7 @@ public class WorkTask {
                 WorkDO workDO = WorkDO.builder()
                         .id(workId)
                         .endTime(LocalDateTime.now())
-                        .workStatus(WorkStatusEnum.TIME_OUT.getCode())
+                        .status(WorkStatusEnum.TIME_OUT.getCode())
                         .updateTime(LocalDateTime.now())
                         .build();
 

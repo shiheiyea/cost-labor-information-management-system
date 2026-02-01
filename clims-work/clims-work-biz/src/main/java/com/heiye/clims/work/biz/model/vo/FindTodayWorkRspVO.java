@@ -35,5 +35,5 @@ public class FindTodayWorkRspVO {
 
     private Long serverTime;
 
-    private Integer workStatus;
+    private Integer status;
 }

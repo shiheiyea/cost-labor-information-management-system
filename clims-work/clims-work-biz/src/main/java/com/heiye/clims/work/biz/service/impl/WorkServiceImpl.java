@@ -83,7 +83,7 @@ public class WorkServiceImpl implements WorkService {
                 .targetDuration(addWorkRepVO.getTargetDuration())
                 .createTime(LocalDateTime.now())
                 .updateTime(LocalDateTime.now())
-                .workStatus(WorkStatusEnum.NOT_STARTED.getCode())
+                .status(WorkStatusEnum.NOT_STARTED.getCode())
                 .build();
 
         workDOMapper.insert(workDO);
@@ -128,7 +128,7 @@ public class WorkServiceImpl implements WorkService {
                     .startTime(startTime)
                     // 返回服务器时间
                     .serverTime(System.currentTimeMillis())
-                    .workStatus(workDO.getWorkStatus())
+                    .status(workDO.getStatus())
                     .build();
         }
 
@@ -161,7 +161,7 @@ public class WorkServiceImpl implements WorkService {
 
         // 更新工作开始时间和工作状态
         workDO.setStartTime(LocalDateTime.now());
-        workDO.setWorkStatus(WorkStatusEnum.WORKING.getCode());
+        workDO.setStatus(WorkStatusEnum.WORKING.getCode());
         workDO.setUpdateTime(LocalDateTime.now());
 
         workDOMapper.updateById(workDO);
@@ -205,10 +205,10 @@ public class WorkServiceImpl implements WorkService {
         // 或者工作小时已等于目标小时并且已工作的分钟数大于等于目标时间分钟数
         if (elapsedMinutes >= targetDuration) {
             // 正常完成工作
-            workDO.setWorkStatus(WorkStatusEnum.COMPLETED.getCode());
+            workDO.setStatus(WorkStatusEnum.COMPLETED.getCode());
         } else {
             // 提前完成工作
-            workDO.setWorkStatus(WorkStatusEnum.EARLY_COMPLETED.getCode());
+            workDO.setStatus(WorkStatusEnum.EARLY_COMPLETED.getCode());
         }
 
         // 更新工作状态和时间
@@ -255,7 +255,7 @@ public class WorkServiceImpl implements WorkService {
             Integer targetDuration = workDO.getTargetDuration();
 
             // 获取工作状态
-            Integer workStatus = workDO.getWorkStatus();
+            Integer workStatus = workDO.getStatus();
 
             // 获取工作状态枚举
             WorkStatusEnum workStatusEnum = WorkStatusEnum.getWorkStatusEnum(workStatus);
