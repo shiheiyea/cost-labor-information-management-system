@@ -1,6 +1,7 @@
 package com.heiye.clims.work.biz.model.vo;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,7 +29,7 @@ public class AddWorkReqVO {
     @NotEmpty(message = "工作地点不能为空")
     private String place;
 
-    @NotEmpty(message = "工作目标时间不能为空")
+    @NotNull(message = "工作目标时间不能为空")
     private Integer targetDuration;
 
     private List<String> imageUrls;
