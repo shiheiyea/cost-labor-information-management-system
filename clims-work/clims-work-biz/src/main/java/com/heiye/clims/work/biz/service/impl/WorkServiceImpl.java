@@ -128,6 +128,7 @@ public class WorkServiceImpl implements WorkService {
                     .place(workDO.getPlace())
                     .content(workDO.getContent())
                     .imageUrls(imageUrls)
+                    .targetDuration(workDO.getTargetDuration())
                     .startTime(startTime)
                     // 返回服务器时间
                     .serverTime(System.currentTimeMillis())
