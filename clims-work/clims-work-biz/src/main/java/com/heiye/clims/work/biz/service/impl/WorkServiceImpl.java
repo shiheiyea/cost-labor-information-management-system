@@ -117,7 +117,10 @@ public class WorkServiceImpl implements WorkService {
             List<String> imageUrls = imageUrlStrtoList(workDO.getImageUrls());
 
             // 将工作开始时间转换为时间戳
-            long startTime = workDO.getStartTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+            Long startTime = null;
+            if (Objects.nonNull(workDO.getStartTime())) {
+                startTime = workDO.getStartTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+            }
 
             findTodayWorkRspVO = FindTodayWorkRspVO.builder()
                     .id(workDO.getId())
