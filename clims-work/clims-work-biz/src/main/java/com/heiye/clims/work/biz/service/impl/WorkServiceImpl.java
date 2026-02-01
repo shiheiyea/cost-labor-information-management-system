@@ -21,8 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -78,10 +77,10 @@ public class WorkServiceImpl implements WorkService {
         WorkDO workDO = WorkDO.builder()
                 .userId(userId)
                 .imageUrls(imageUrlsStr)
-                .workName(addWorkRepVO.getWorkName())
-                .workPlace(addWorkRepVO.getWorkPlace())
-                .workContent(addWorkRepVO.getWorkContent())
-                .workTargetTime(addWorkRepVO.getWorkTargetTime())
+                .name(addWorkRepVO.getName())
+                .place(addWorkRepVO.getPlace())
+                .content(addWorkRepVO.getContent())
+                .targetDuration(addWorkRepVO.getTargetDuration())
                 .createTime(LocalDateTime.now())
                 .updateTime(LocalDateTime.now())
                 .workStatus(WorkStatusEnum.NOT_STARTED.getCode())
@@ -117,43 +116,18 @@ public class WorkServiceImpl implements WorkService {
             // 处理图片链接
             List<String> imageUrls = imageUrlStrtoList(workDO.getImageUrls());
 
-            // 处理工作计时
-            Long workHours = null;
-            Long workMinutes = null;
-            Stopwatch stopwatch = workStopwatchCaffeineCache.getIfPresent(workDO.getId());
-            if (Objects.nonNull(stopwatch)) {
-                // 获取工作时长
-                Duration duration = stopwatch.elapsed();
-
-                // 赋值
-                workHours = duration.toHours();
-                workMinutes = duration.toMinutes() - duration.toHours() * 60;
-            }
-
-            // 处理工作目标时间
-            Long workTargetHours = null;
-            Long workTargetMinutes = null;
-            // 获取工作目标时间
-            String workTargetTime = workDO.getWorkTargetTime();
-            if (StringUtils.isNotBlank(workTargetTime)) {
-                // 切分字符串
-                String[] split = workTargetTime.split(":");
-
-                // 赋值
-                workTargetHours = Long.valueOf(split[0]);
-                workTargetMinutes = Long.parseLong(split[1]);
-            }
+            // 将工作开始时间转换为时间戳
+            long startTime = workDO.getStartTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
 
             findTodayWorkRspVO = FindTodayWorkRspVO.builder()
                     .id(workDO.getId())
-                    .workName(workDO.getWorkName())
-                    .workPlace(workDO.getWorkPlace())
-                    .workContent(workDO.getWorkContent())
+                    .name(workDO.getName())
+                    .place(workDO.getPlace())
+                    .content(workDO.getContent())
                     .imageUrls(imageUrls)
-                    .workHours(workHours)
-                    .workMinutes(workMinutes)
-                    .workTargetHours(workTargetHours)
-                    .workTargetMinutes(workTargetMinutes)
+                    .startTime(startTime)
+                    // 返回服务器时间
+                    .serverTime(System.currentTimeMillis())
                     .workStatus(workDO.getWorkStatus())
                     .build();
         }
@@ -186,7 +160,7 @@ public class WorkServiceImpl implements WorkService {
         workStopwatchCaffeineCache.put(id, stopwatch);
 
         // 更新工作开始时间和工作状态
-        workDO.setWorkStartTime(LocalDateTime.now());
+        workDO.setStartTime(LocalDateTime.now());
         workDO.setWorkStatus(WorkStatusEnum.WORKING.getCode());
         workDO.setUpdateTime(LocalDateTime.now());
 
@@ -221,25 +195,15 @@ public class WorkServiceImpl implements WorkService {
             throw new BizException(ResponseCodeEnum.WORK_STATUS_ERROR);
         }
 
-        // 获取工作计时器已使用的毫秒数
-        long elapsedMillis = stopwatch.elapsed(TimeUnit.MILLISECONDS);
-        // 获取工作计时器已使用的时间
-        Duration duration = Duration.ofMillis(elapsedMillis);
-        // 获取到已使用的时间小时和分钟
-        long hours = duration.toHours();
-        long minutes = duration.toMinutes() - hours * 60;
+        // 获取工作计时器已使用的分钟
+        long elapsedMinutes = stopwatch.elapsed(TimeUnit.MINUTES);
 
-        // 查询制定的目标工作时间
-        String workTargetTime = workDO.getWorkTargetTime();
-        String[] split = workTargetTime.split(":");
-        // 获取目标时间小时数和分钟
-        long targetHours = Long.parseLong(split[0]);
-        long targetMinutes = Long.parseLong(split[1]);
+        // 查询制定的目标工作时间（单位：分钟）
+        Integer targetDuration = workDO.getTargetDuration();
 
         // 当工作小时已超过目标小时
         // 或者工作小时已等于目标小时并且已工作的分钟数大于等于目标时间分钟数
-        if (hours > targetHours ||
-                (hours == targetHours && minutes >= targetMinutes)) {
+        if (elapsedMinutes >= targetDuration) {
             // 正常完成工作
             workDO.setWorkStatus(WorkStatusEnum.COMPLETED.getCode());
         } else {
@@ -288,30 +252,32 @@ public class WorkServiceImpl implements WorkService {
             List<String> imageUrls = imageUrlStrtoList(workDO.getImageUrls());
 
             // 工作时间
-            String workTargetTime = workDO.getWorkTargetTime();
+            Integer targetDuration = workDO.getTargetDuration();
 
             // 获取工作状态
             Integer workStatus = workDO.getWorkStatus();
 
-            // 工作完成时间
-            Long workHours = null;
-            Long workMinutes = null;
-
             // 获取工作状态枚举
             WorkStatusEnum workStatusEnum = WorkStatusEnum.getWorkStatusEnum(workStatus);
 
+            // 工作计时时间
+            Integer actualDuration = null;
+
             switch (workStatusEnum) {
-                case COMPLETED, TIME_OUT -> {
-                    // 获取工作完成时间
-                    String[] split = workTargetTime.split(":");
-                    // 赋值工作完成时间小时数和分钟
-                    workHours = Long.valueOf(split[0]);
-                    workMinutes = Long.valueOf(split[1]);
+                case COMPLETED, TIME_OUT  -> {
+                    // TODO 如果需要修改 TIME_OUT 的计时规则，请修改
+                    actualDuration = targetDuration;
                 }
                 case EARLY_COMPLETED -> {
-                    // 计算提前完成工作时间
-                    workHours = workDO.getWorkStartTime().until(workDO.getUpdateTime(), ChronoUnit.HOURS);
-                    workMinutes = workDO.getWorkStartTime().until(workDO.getUpdateTime(), ChronoUnit.MINUTES) - workHours * 60;
+                    // 获取工作开始时间 和 结束时间
+                    LocalDateTime startTime = workDO.getStartTime();
+                    LocalDateTime endTime = workDO.getEndTime();
+
+                    // 获取工作时长
+                    Duration between = Duration.between(startTime, endTime);
+                    // 转换为分钟
+                    long minutes = between.toMinutes();
+                    actualDuration = Math.toIntExact(minutes);
                 }
             }
 
@@ -319,12 +285,10 @@ public class WorkServiceImpl implements WorkService {
             FindHistoryWorkRspVO findHistoryWorkRspVO = FindHistoryWorkRspVO.builder()
                     .id(workDO.getId())
                     .imageUrls(imageUrls)
-                    .workName(workDO.getWorkName())
-                    .workPlace(workDO.getWorkPlace())
-                    .workStatus(workDO.getWorkStatus())
-                    .workContent(workDO.getWorkContent())
-                    .workTimeHours(workHours)
-                    .workTimeMinutes(workMinutes)
+                    .name(workDO.getName())
+                    .content(workDO.getContent())
+                    .place(workDO.getPlace())
+                    .actualDuration(actualDuration)
                     .build();
 
             findHistoryWorkRspVOList.add(findHistoryWorkRspVO);

@@ -46,10 +46,11 @@ public class WorkTask {
 
         workStopwatchCaffeineCacheMap.forEach((workId, stopwatch) -> {
             // 工作超过 24 小时，需要清除该工作计时器，并记为工作超时
-            if (stopwatch.elapsed().toMinutes() > 24) {
+            if (stopwatch.elapsed().toHours() > 24) {
                 // 工作超时
                 WorkDO workDO = WorkDO.builder()
                         .id(workId)
+                        .endTime(LocalDateTime.now())
                         .workStatus(WorkStatusEnum.TIME_OUT.getCode())
                         .updateTime(LocalDateTime.now())
                         .build();

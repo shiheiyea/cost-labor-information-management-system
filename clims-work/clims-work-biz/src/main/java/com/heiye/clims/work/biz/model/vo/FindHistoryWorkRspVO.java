@@ -22,21 +22,13 @@ public class FindHistoryWorkRspVO {
 
     private List<String> imageUrls;
 
-    private String workName;
+    private String name;
 
-    private String workContent;
+    private String content;
 
-    private String workPlace;
+    private String place;
 
-    /**
-     * 工作完成时间：小时
-     */
-    private Long workTimeHours;
-
-    /**
-     * 工作完成时间：分钟
-     */
-    private Long workTimeMinutes;
+    private Integer actualDuration;
 
     private Integer workStatus;
 }

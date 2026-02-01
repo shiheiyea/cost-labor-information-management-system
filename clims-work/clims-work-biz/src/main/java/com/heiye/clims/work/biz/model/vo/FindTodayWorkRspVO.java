@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -22,30 +23,17 @@ public class FindTodayWorkRspVO {
 
     private List<String> imageUrls;
 
-    private String workName;
+    private String name;
 
-    private String workContent;
+    private String content;
 
-    private String workPlace;
+    private String place;
 
-    /**
-     * 工作计时：小时
-     */
-    private Long workHours;
-    /**
-     * 工作计时：分钟
-     */
-    private Long workMinutes;
+    private Integer targetDuration;
 
-    /**
-     * 工作目标时间：小时
-     */
-    private Long workTargetHours;
+    private Long startTime;
 
-    /**
-     * 工作目标时间：分钟
-     */
-    private Long workTargetMinutes;
+    private Long serverTime;
 
     private Integer workStatus;
 }

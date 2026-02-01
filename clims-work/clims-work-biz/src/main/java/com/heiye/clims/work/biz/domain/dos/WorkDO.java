@@ -30,15 +30,19 @@ public class WorkDO {
 
     private String imageUrls;
 
-    private String workName;
+    private String name;
 
-    private String workContent;
+    private String content;
 
-    private String workPlace;
+    private String place;
 
-    private String workTargetTime;
+    private Integer targetDuration;
 
-    private LocalDateTime workStartTime;
+    private LocalDateTime startTime;
+
+    private LocalDateTime endTime;
+
+    private Integer actualDuration;
 
     private LocalDateTime createTime;
 

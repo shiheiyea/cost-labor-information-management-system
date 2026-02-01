@@ -20,16 +20,16 @@ import java.util.List;
 @AllArgsConstructor
 public class AddWorkReqVO {
     @NotEmpty(message = "工作名称不能为空")
-    private String workName;
+    private String name;
 
     @NotEmpty(message = "工作内容不能为空")
-    private String workContent;
+    private String content;
 
     @NotEmpty(message = "工作地点不能为空")
-    private String workPlace;
+    private String place;
 
     @NotEmpty(message = "工作目标时间不能为空")
-    private String workTargetTime;
+    private Integer targetDuration;
 
     private List<String> imageUrls;
 }
