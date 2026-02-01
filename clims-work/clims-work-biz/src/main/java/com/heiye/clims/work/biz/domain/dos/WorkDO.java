@@ -3,6 +3,7 @@ package com.heiye.clims.work.biz.domain.dos;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +22,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("t_work")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class WorkDO {
 
     @TableId(type = IdType.AUTO)
