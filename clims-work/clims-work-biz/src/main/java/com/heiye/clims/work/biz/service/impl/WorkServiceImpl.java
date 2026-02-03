@@ -205,8 +205,7 @@ public class WorkServiceImpl implements WorkService {
         // 查询制定的目标工作时间（单位：分钟）
         Integer targetDuration = workDO.getTargetDuration();
 
-        // 当工作小时已超过目标小时
-        // 或者工作小时已等于目标小时并且已工作的分钟数大于等于目标时间分钟数
+        // 已工作的分钟数大于等于目标时间分钟数或工作小时已等于目标小时
         if (elapsedMinutes >= targetDuration) {
             // 正常完成工作
             workDO.setStatus(WorkStatusEnum.COMPLETED.getCode());
