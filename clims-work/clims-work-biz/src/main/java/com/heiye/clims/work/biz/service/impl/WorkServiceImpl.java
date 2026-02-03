@@ -224,7 +224,9 @@ public class WorkServiceImpl implements WorkService {
         // 删除缓存中的工作计时器
         workStopwatchCaffeineCache.invalidate(id);
 
-        return Response.success();
+        return Response.success(EndWorkRspVO.builder()
+                .workStatus(workDO.getStatus())
+                .build());
     }
 
     /**
@@ -268,7 +270,7 @@ public class WorkServiceImpl implements WorkService {
             Integer actualDuration = null;
 
             switch (workStatusEnum) {
-                case COMPLETED, TIME_OUT  -> {
+                case COMPLETED, TIME_OUT -> {
                     // TODO 如果需要修改 TIME_OUT 的计时规则，请修改
                     actualDuration = targetDuration;
                 }
