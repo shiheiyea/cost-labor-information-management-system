@@ -89,8 +89,8 @@ public class WorkServiceImpl implements WorkService {
         workDOMapper.insert(workDO);
 
         // 构建返回结果 Id
-        return Response.success(WorkDO.builder()
-                .id(workDO.getId())
+        return Response.success(AddWorkRspVO.builder()
+                .workId(workDO.getId())
                 .build());
     }
 
