@@ -169,7 +169,12 @@ public class WorkServiceImpl implements WorkService {
         workDO.setUpdateTime(LocalDateTime.now());
 
         workDOMapper.updateById(workDO);
-        return Response.success();
+        return Response.success(StartWorkRspVO.builder()
+                // 将工作开始时间转换为时间戳
+                .startTime(workDO.getStartTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())
+                // 返回服务器时间
+                .serverTime(System.currentTimeMillis())
+                .build());
     }
 
     /**
