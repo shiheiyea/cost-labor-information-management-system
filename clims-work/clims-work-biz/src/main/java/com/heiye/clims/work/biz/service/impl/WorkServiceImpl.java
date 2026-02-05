@@ -266,10 +266,10 @@ public class WorkServiceImpl implements WorkService {
             Integer targetDuration = workDO.getTargetDuration();
 
             // 获取工作状态
-            Integer workStatus = workDO.getStatus();
+            Integer status = workDO.getStatus();
 
             // 获取工作状态枚举
-            WorkStatusEnum workStatusEnum = WorkStatusEnum.getWorkStatusEnum(workStatus);
+            WorkStatusEnum workStatusEnum = WorkStatusEnum.getWorkStatusEnum(status);
 
             // 工作计时时间
             Integer actualDuration = null;
@@ -300,7 +300,7 @@ public class WorkServiceImpl implements WorkService {
                     .content(workDO.getContent())
                     .place(workDO.getPlace())
                     .actualDuration(actualDuration)
-                    .workStatus(workStatus)
+                    .status(status)
                     .build();
 
             findHistoryWorkRspVOList.add(findHistoryWorkRspVO);

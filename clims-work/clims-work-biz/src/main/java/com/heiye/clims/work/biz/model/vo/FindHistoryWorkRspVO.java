@@ -32,5 +32,5 @@ public class FindHistoryWorkRspVO {
 
     private Integer actualDuration;
 
-    private Integer workStatus;
+    private Integer status;
 }
