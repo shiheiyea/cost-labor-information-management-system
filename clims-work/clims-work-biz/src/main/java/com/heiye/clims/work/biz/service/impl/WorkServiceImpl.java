@@ -300,6 +300,7 @@ public class WorkServiceImpl implements WorkService {
                     .content(workDO.getContent())
                     .place(workDO.getPlace())
                     .actualDuration(actualDuration)
+                    .startTime(workDO.getStartTime())
                     .status(status)
                     .build();
 
