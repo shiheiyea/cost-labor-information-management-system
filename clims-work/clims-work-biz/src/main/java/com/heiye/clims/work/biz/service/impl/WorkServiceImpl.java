@@ -220,6 +220,7 @@ public class WorkServiceImpl implements WorkService {
         }
 
         // 更新工作状态和时间
+        workDO.setEndTime(LocalDateTime.now());
         workDO.setUpdateTime(LocalDateTime.now());
         workDOMapper.updateById(workDO);
 
@@ -240,7 +241,7 @@ public class WorkServiceImpl implements WorkService {
      * @return
      */
     @Override
-    public Response<?> findHistoryWork(FindHistoryWorkReqVO findHistoryWorkReqVO) {
+    public PageResponse<?> findHistoryWork(FindHistoryWorkReqVO findHistoryWorkReqVO) {
         // TODO: 获取登录用户 ID
         Long userId = 1L;
 
@@ -299,6 +300,7 @@ public class WorkServiceImpl implements WorkService {
                     .content(workDO.getContent())
                     .place(workDO.getPlace())
                     .actualDuration(actualDuration)
+                    .workStatus(workStatus)
                     .build();
 
             findHistoryWorkRspVOList.add(findHistoryWorkRspVO);

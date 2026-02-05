@@ -1,5 +1,6 @@
 package com.heiye.clims.work.biz.service;
 
+import com.heiye.clims.framework.mybatis.response.PageResponse;
 import com.heiye.clims.framework.common.response.Response;
 import com.heiye.clims.work.biz.model.vo.AddWorkReqVO;
 import com.heiye.clims.work.biz.model.vo.EndWorkReqVO;
@@ -50,5 +51,5 @@ public interface WorkService {
      * @param findHistoryWorkReqVO
      * @return
      */
-    Response<?> findHistoryWork(FindHistoryWorkReqVO findHistoryWorkReqVO);
+    PageResponse<?> findHistoryWork(FindHistoryWorkReqVO findHistoryWorkReqVO);
 }
