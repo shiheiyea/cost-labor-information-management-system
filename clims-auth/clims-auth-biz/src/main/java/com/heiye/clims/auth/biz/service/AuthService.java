@@ -27,4 +27,11 @@ public interface AuthService {
      * @return
      */
     Response<?> login(LoginReqVO loginReqVO);
+
+    /**
+     * 登出
+     *
+     * @return
+     */
+    Response<?> logout();
 }

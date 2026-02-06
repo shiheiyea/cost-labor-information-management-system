@@ -33,7 +33,6 @@ public class AuthController {
         return authService.register(registerReqVO);
     }
 
-
     /**
      * 登录
      *
@@ -45,4 +44,13 @@ public class AuthController {
         return authService.login(loginReqVO);
     }
 
+    /**
+     * 登出
+     *
+     * @return
+     */
+    @PostMapping("/logout")
+    public Response<?> logout() {
+        return authService.logout();
+    }
 }

@@ -11,6 +11,7 @@ import com.heiye.clims.framework.common.exception.BizException;
 import com.heiye.clims.framework.common.response.Response;
 import com.heiye.clims.auth.biz.model.vo.RegisterReqVO;
 import com.heiye.clims.auth.biz.service.AuthService;
+import com.heiye.clims.framework.common.thread.LoginUserContextHolder;
 import com.heiye.clims.user.api.api.UserApi;
 import com.heiye.clims.user.api.dto.FindUserByEmailReqDTO;
 import com.heiye.clims.user.api.dto.FindUserByEmailRspDTO;
@@ -121,5 +122,20 @@ public class AuthServiceImpl implements AuthService {
         // 登录
         RegisterFinishRspVO registerFinishRspVO = loginStrategy.login(loginReqVO.getIdentifier(), loginReqVO.getCredential());
         return Response.success(registerFinishRspVO);
+    }
+
+    /**
+     * 登出
+     *
+     * @return
+     */
+    @Override
+    public Response<?> logout() {
+        // 获取当前登录用户 ID
+        Long userId = LoginUserContextHolder.getUserId();
+
+        // 登出
+        StpUtil.logout(userId);
+        return Response.success();
     }
 }
