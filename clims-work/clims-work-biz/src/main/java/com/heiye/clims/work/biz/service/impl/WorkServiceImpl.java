@@ -7,6 +7,7 @@ import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.heiye.clims.framework.common.exception.BizException;
 import com.heiye.clims.framework.common.response.Response;
+import com.heiye.clims.framework.common.thread.LoginUserContextHolder;
 import com.heiye.clims.framework.mybatis.response.PageResponse;
 import com.heiye.clims.work.biz.domain.dos.WorkDO;
 import com.heiye.clims.work.biz.domain.mapper.WorkDOMapper;
@@ -101,8 +102,8 @@ public class WorkServiceImpl implements WorkService {
      */
     @Override
     public Response<?> findTodayWork() {
-        // TODO 获取登录用户ID
-        Long userId = 1L;
+        // 获取登录用户ID
+        Long userId = LoginUserContextHolder.getUserId();
 
         // 获取今日工作 只查询先添加的工作
         WorkDO workDO = workDOMapper.findTodayWork(userId);
@@ -242,8 +243,8 @@ public class WorkServiceImpl implements WorkService {
      */
     @Override
     public PageResponse<?> findHistoryWork(FindHistoryWorkReqVO findHistoryWorkReqVO) {
-        // TODO: 获取登录用户 ID
-        Long userId = 1L;
+        // 获取登录用户 ID
+        Long userId = LoginUserContextHolder.getUserId();
 
         // 获取页码和页数
         Long current = findHistoryWorkReqVO.getCurrent();

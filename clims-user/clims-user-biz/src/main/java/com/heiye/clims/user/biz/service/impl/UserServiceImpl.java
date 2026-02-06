@@ -47,9 +47,8 @@ public class UserServiceImpl implements UserService {
         // 获取用户头像
         String avatar = updateUserInfoReqVO.getAvatar();
 
-        // TODO: 获取用户登录 ID
+        // 获取用户登录 ID
         Long loginUserId = LoginUserContextHolder.getUserId();
-//        Long loginUserId = 2L;
 
         // 非号主本人，无法修改其个人信息
         if (!Objects.equals(loginUserId, userId)) {
