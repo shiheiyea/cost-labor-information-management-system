@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
  * @version: v1.0.0
  * @description: 工作业务
  */
-@Service
 @Validated
 @RestController
 @RequestMapping("/work")

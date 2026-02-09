@@ -51,10 +51,8 @@ public class WorkServiceImpl implements WorkService {
      */
     @Override
     public Response<?> addWork(AddWorkReqVO addWorkRepVO) {
-
         // 获取登录用户ID
-//        Long userId = LoginUserContextHolder.getUserId();
-        Long userId = 1L;
+        Long userId = LoginUserContextHolder.getUserId();
 
         // 处理图片链接
         List<String> imageUrls = addWorkRepVO.getImageUrls();
