@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -39,9 +40,6 @@ public class WorkServiceImpl implements WorkService {
 
     @Resource
     private WorkDOMapper workDOMapper;
-
-    @Resource(name = "workStopwatchCaffeineCache")
-    private Cache<Long, Stopwatch> workStopwatchCaffeineCache;
 
     /**
      * 添加工作
@@ -157,11 +155,6 @@ public class WorkServiceImpl implements WorkService {
             throw new BizException(ResponseCodeEnum.WORK_NOT_EXIST);
         }
 
-        // 创建工作计时器
-        Stopwatch stopwatch = Stopwatch.createStarted();
-        // 缓存工作计时器
-        workStopwatchCaffeineCache.put(id, stopwatch);
-
         // 更新工作开始时间和工作状态
         workDO.setStartTime(LocalDateTime.now());
         workDO.setStatus(WorkStatusEnum.WORKING.getCode());
@@ -195,16 +188,11 @@ public class WorkServiceImpl implements WorkService {
             throw new BizException(ResponseCodeEnum.WORK_NOT_EXIST);
         }
 
-        // 从缓存中获取 Stopwatch
-        Stopwatch stopwatch = workStopwatchCaffeineCache.getIfPresent(id);
+        // 工作开始时间
+        LocalDateTime startTime = workDO.getStartTime();
 
-        // 缓存中不存在工作计时器
-        if (Objects.isNull(stopwatch)) {
-            throw new BizException(ResponseCodeEnum.WORK_STATUS_ERROR);
-        }
-
-        // 获取工作计时器已使用的分钟
-        long elapsedMinutes = stopwatch.elapsed(TimeUnit.MINUTES);
+        // 工作已开始分钟
+        long elapsedMinutes = ChronoUnit.MINUTES.between(startTime, LocalDateTime.now());
 
         // 查询制定的目标工作时间（单位：分钟）
         Integer targetDuration = workDO.getTargetDuration();
@@ -222,11 +210,6 @@ public class WorkServiceImpl implements WorkService {
         workDO.setEndTime(LocalDateTime.now());
         workDO.setUpdateTime(LocalDateTime.now());
         workDOMapper.updateById(workDO);
-
-        // 停止工作计时器
-        stopwatch.stop();
-        // 删除缓存中的工作计时器
-        workStopwatchCaffeineCache.invalidate(id);
 
         return Response.success(EndWorkRspVO.builder()
                 .workStatus(workDO.getStatus())

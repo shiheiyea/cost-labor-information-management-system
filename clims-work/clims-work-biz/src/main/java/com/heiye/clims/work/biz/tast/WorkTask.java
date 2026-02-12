@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
@@ -24,46 +25,45 @@ import java.util.concurrent.ConcurrentMap;
 @Slf4j
 @Component
 public class WorkTask {
-
-    @Resource(name = "workStopwatchCaffeineCache")
-    private Cache<Long, Stopwatch> workStopwatchCaffeineCache;
-
     @Resource
     private WorkDOMapper workDOMapper;
 
     /**
      * 工作超时：用户没有及时点击完成工作
      */
-    @Scheduled(cron = "0 0 * * * ?")
+    @Scheduled(cron = "0 1/5 * * * ?")
     public void workTimeOut() {
         log.info("======== 定时任务：检查工作超时 ========");
 
-        // 获取所有缓存中的工作计时器
-        ConcurrentMap<Long, Stopwatch> workStopwatchCaffeineCacheMap = workStopwatchCaffeineCache.asMap();
-
-        // 需要记为工作超时
-        List<WorkDO> workTimeOutList = Lists.newArrayList();
-
-        workStopwatchCaffeineCacheMap.forEach((workId, stopwatch) -> {
-            // 工作超过 24 小时，需要清除该工作计时器，并记为工作超时
-            if (stopwatch.elapsed().toHours() > 24) {
-                // 工作超时
-                WorkDO workDO = WorkDO.builder()
-                        .id(workId)
-                        .endTime(LocalDateTime.now())
-                        .status(WorkStatusEnum.TIME_OUT.getCode())
-                        .updateTime(LocalDateTime.now())
-                        .build();
-
-                // 添加工作超时
-                workTimeOutList.add(workDO);
-
-                // 移除工作计时器缓存
-                workStopwatchCaffeineCache.invalidate(workId);
-            }
-        });
+        // 获取正在工作的工作, 且超过 30 分钟未更新
+        List<WorkDO> workingWork = workDOMapper.findWorkingWork();
 
         // 批量更新工作状态
-        workDOMapper.updateById(workTimeOutList);
+        List<WorkDO> workCompletedList = Lists.newArrayList();
+
+        for (WorkDO workDO : workingWork) {
+            // 获取当前时间
+            LocalDateTime now = LocalDateTime.now();
+            // 获取工作开始时间
+            LocalDateTime startTime = workDO.getStartTime();
+
+            // 当前时间减去工作开始时间，获得他们相差的分钟数
+            long between = ChronoUnit.MINUTES.between(startTime, now);
+            // 获取目标工作分钟数
+            long targetDuration = workDO.getTargetDuration();
+
+            // 工作已开始分钟数 >= 目标工作分钟数
+            if (between >= targetDuration) {
+                // 工作完成
+                workDO.setEndTime(LocalDateTime.now());
+                workDO.setUpdateTime(LocalDateTime.now());
+                workDO.setStatus(WorkStatusEnum.COMPLETED.getCode());
+                // 添加到列表
+                workCompletedList.add(workDO);
+            }
+        }
+
+        // 批量更新工作状态
+        workDOMapper.updateById(workCompletedList);
     }
 }

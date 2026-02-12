@@ -65,4 +65,19 @@ public interface WorkDOMapper extends BaseMapper<WorkDO> {
 
         return selectPage(page, lambdaQueryWrapper);
     }
+
+    /**
+     * 查询状态为：正在工作中的数据，且超过 30 分钟未更新
+     *
+     * @return
+     */
+    default List<WorkDO> findWorkingWork() {
+        // 构建查询条件
+        LambdaQueryWrapper<WorkDO> lambdaQueryWrapper = Wrappers.<WorkDO>lambdaQuery()
+                .eq(WorkDO::getStatus, WorkStatusEnum.WORKING.getCode())
+                .and(wrapper -> wrapper.lt(WorkDO::getUpdateTime, LocalDateTime.now().minusMinutes(30L)))
+                .orderByDesc(WorkDO::getCreateTime);
+
+        return selectList(lambdaQueryWrapper);
+    }
 }
